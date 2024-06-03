@@ -45,33 +45,33 @@ console.log(dateWithoutTime);
     console.log("no medication has been schedule")
   }
 
-    // Handle recurring medications
-    // const recurringMedications = await medication.findAll({
-    //   where: {
-    //     type: "recurring",
-    //     start_date: { [Op.lte]: todayDate },
-    //     end_date: { [Op.gte]: todayDate },
-    //     day_week: { [Op.like]: `%${todayDay}%` },
-    //   },
-    // });
+    Handle recurring medications
+    const recurringMedications = await medication.findAll({
+      where: {
+        type: "recurring",
+        start_date: { [Op.lte]: todayDate },
+        end_date: { [Op.gte]: todayDate },
+        day_week: { [Op.like]: `%${todayDay}%` },
+      },
+    });
 
-// res.json({recurringMedications})
-  //   if(recurringMedications){
-  //  recur= recurringMedications.forEach(async (medicationdetail) => {
-  //     await reminder.create({
-  //       medication_id: medicationdetail.id,
-  //       reminder_at: new Date(`${todayDate} ${medicationdetail.time}`), 
-  //       status: "pending",
-  //     });
-  //     console.log(
-  //       `reminder created for recurring medication: ${medicationdetail.name}`
-  //     );
-  //   });
-  //   res.json({recur})
-  // }
-  // else{
-  //   console.log("no medication has been schedule")
-  // }
+res.json({recurringMedications})
+    if(recurringMedications){
+   recur= recurringMedications.forEach(async (medicationdetail) => {
+      await reminder.create({
+        medication_id: medicationdetail.id,
+        reminder_at: new Date(`${todayDate} ${medicationdetail.time}`), 
+        status: "pending",
+      });
+      console.log(
+        `reminder created for recurring medication: ${medicationdetail.name}`
+      );
+    });
+    res.json({recur})
+  }
+  else{
+    console.log("no medication has been schedule")
+  }
   
 } catch (error) {
   console.error("Error generating reminders:", error);
