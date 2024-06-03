@@ -45,7 +45,7 @@ console.log(dateWithoutTime);
     console.log("no medication has been schedule")
   }
 
-    Handle recurring medications
+   // Handle recurring medications
     const recurringMedications = await medication.findAll({
       where: {
         type: "recurring",
