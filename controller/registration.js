@@ -39,7 +39,7 @@ exports.login=async(req,res)=>{
       return res.status(401).json({ error: 'Invalid email' });
     }
     console.log(secretKey);
-    const token = jwt.sign({ id: users.id }, secretKey, { expiresIn: '1h' });
+    const token = jwt.sign({ id: users.id }, secretKey, { expiresIn: '3h' });
   //  res.json({ user: users });
     res.cookie('token', token, { httpOnly: true });
     console.log(token);

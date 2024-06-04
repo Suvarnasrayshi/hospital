@@ -1,14 +1,11 @@
 const express = require("express");
 const app = express();
-const Sequelize = require("sequelize");
 app.set("view engine", "ejs");
-const router = express.Router();
-const cookieParser = require('cookie-parser');
-const jwt = require('jsonwebtoken');
 const bodyParser = require("body-parser");
 const { Op } = require("sequelize");
-const {medication,reminder} = require("../models");
+const {medication,reminder,user} = require("../models");
 const cron = require("node-cron");
+const { sendEmailNotification } = require('../service/email'); 
 
 // exports.generateReminders = cron.schedule("0 0 * * *", async (req,res) => {
   const generateReminders=async (req,res) => {
@@ -23,8 +20,10 @@ console.log(dateWithoutTime);
     const oneTimeMedications = await medication.findAll({
       where: {
         type: "one-time",
-       //date:dateWithoutTime,
+       // [Op.and]: where(fn('DATE', col('date')), dateWithoutTime),
+        // deletedAt: null,
       },
+      include: [user] // Include user model to fetch user details
     });
     // res.json({oneTimeMedications})
 
@@ -36,8 +35,12 @@ console.log(dateWithoutTime);
         status: "pending",
       });
       console.log(
-        "reminder created for one-time medication"
+        "reminder created for one-time medication",medicationdetail.user.email
       );
+      const recipientEmail = medicationdetail.user.email;
+      const subject = 'Medication Reminder';
+      const text = `Please remember to take your medication ${medicationdetail.name} at ${medicationdetail.time}.`;
+      sendEmailNotification(recipientEmail, subject, text);
     });
    // res.json({once})
   }
@@ -55,7 +58,7 @@ console.log(dateWithoutTime);
       },
     });
 
-res.json({recurringMedications})
+// res.json({recurringMedications})
     if(recurringMedications){
    recur= recurringMedications.forEach(async (medicationdetail) => {
       await reminder.create({
@@ -67,7 +70,11 @@ res.json({recurringMedications})
         `reminder created for recurring medication: ${medicationdetail.name}`
       );
     });
-    res.json({recur})
+    const recipientEmail = medicationdetail.user.email;
+    const subject = 'Medication Reminder';
+    const text = `Please remember to take your recurring medication ${medicationDetail.name} at ${medicationDetail.time}.`;
+    await sendEmailNotification(recipientEmail, subject, text);
+    // res.json({recur})
   }
   else{
     console.log("no medication has been schedule")
