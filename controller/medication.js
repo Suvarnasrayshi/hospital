@@ -13,7 +13,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
   const { name, description, type, date, start_date, end_date, time, day_week,rec_type } = req.body;
 
   try {
-    const user_id = req.user.id; // Get user ID from request object
+    const user_id = req.user.id; 
     let newMedication;
     if (type === 'one-time') {
       newMedication = await medication.create({

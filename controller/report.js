@@ -3,18 +3,25 @@ const app = express();
 const cron = require('node-cron');
 const fs = require('fs');
 const { Op } = require('sequelize');
-const { medication,report } = require('../models');
+const { medication,report,user } = require('../models');
 const bodyParser = require("body-parser");
 app.use(bodyParser.urlencoded({ extended: true }));
+const sequelize = require("../utils/database");
+const Sequelize = require("sequelize");
+app.set("view engine", "ejs");
+const router = express.Router();
+const jwt = require('jsonwebtoken');
+
 
 exports.reportgenrator =async(req,res)=>{
   const filepath = '/home/suvarna-sinha/Documents/hospitalcsvvvvvvvvvv/'+ Date.now()+'.csv';
   const today= new Date();
-var first = today.getDate() - today.getDay(); 
-var last = first + 6; 
+let first = today.getDate() - today.getDay(); 
+let last = first + 6; 
+const user_id = req.user.id; 
 
-var startOfWeek = new Date(today.setDate(first)).toUTCString();
-var endOfWeek = new Date(today.setDate(last)).toUTCString();
+let startOfWeek = new Date(today.setDate(first)).toUTCString();
+let endOfWeek = new Date(today.setDate(last)).toUTCString();
 
   const medicationdetail = await medication.findAll({
     where: {
@@ -30,7 +37,18 @@ var endOfWeek = new Date(today.setDate(last)).toUTCString();
 
   fs.writeFile(filepath, csvContent, (err) => {
     if (err) console.log(err);
-    else console.log("Data saved");
+    else 
+    try {
+      const register= report.create({
+       user_id,
+       report_date:new Date(),
+       description:medication.name,
+      });
+       res.json({ message: 'report data inserted successfully' });
+     } catch (error) {
+       res.json({ error });
+     }
+    console.log("Data saved !!!");
     console.log(filepath);
   });
   }
@@ -38,5 +56,5 @@ var endOfWeek = new Date(today.setDate(last)).toUTCString();
 
 cron.schedule('0 0 * * 0', () => {
   console.log('making weekly report generation...');
-  generateReport();
+  reportgenrator();
 });
