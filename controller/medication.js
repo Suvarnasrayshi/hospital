@@ -33,6 +33,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
         name,
         description,
         type,
+        rec_type,
         start_date,
         end_date,
         time,
@@ -45,6 +46,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
         name,
         description,
         type,
+        rec_type,
         start_date,
         end_date,
         time,
@@ -54,10 +56,22 @@ app.use(bodyParser.urlencoded({ extended: true }));
     }
     } else {
       return res.status(400).json({ error: 'Invalid medication type' });
-    }
 
-    res.status(201).json({ message: 'Medication added successfully', medication: newMedication });
+    }
+   ;
+
   } catch (error) {
     res.status(500).json({ error: 'Failed to add medication' });
   }
+
+   medicationdata = await medication.findAll();
+   res.render('dashboard', { medicationdata })
 };
+
+
+exports.addmedicationonce = async (req, res) => {
+  res.render("addmedicationonce")
+}
+exports.addmedicationrecuring = async (req, res) => {
+  res.render("addmedicationrecuring")
+}

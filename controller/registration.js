@@ -13,6 +13,9 @@ const {user,session}=require('../models')
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 
+exports.getregister=async(req,res)=>{
+  res.render("registration");
+}
 exports.registration = async (req, res) => {
   const { username,email, password } = req.body;
 
@@ -22,12 +25,16 @@ exports.registration = async (req, res) => {
     email,
     password,
    });
-    res.json({ message: 'User registered successfully' });
+    //res.json({ message: 'User registered successfully' });
+    res.render("login")
   } catch (error) {
     res.json({ error });
   }
 };
 
+exports.getlogin=async(req,res)=>{
+  res.render("login")
+}
 
 exports.login=async(req,res)=>{
   try {
@@ -43,7 +50,8 @@ exports.login=async(req,res)=>{
   //  res.json({ user: users });
     res.cookie('token', token, { httpOnly: true });
     console.log(token);
-    res.status(200).json({ message: 'Logged in successfully' });
+    res.render("dashboard")
+    //res.status(200).json({ message: 'Logged in successfully' });
   } catch (error) {
     res.json({ error: error.message });
   }

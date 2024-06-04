@@ -92,3 +92,52 @@ cron.schedule("0 0 * * * *", function() {
 // console.log("Cron job for generating reminders is set up.");
 
 module.exports = { generateReminders };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// at Packet.asError (/home/suvarna-sinha/Documents/hospital_healthandwellness/hospital/node_modules/mysql2/lib/packets/packet.js:728:17)
+// at Execute.execute (/home/suvarna-sinha/Documents/hospital_healthandwellness/hospital/node_modules/mysql2/lib/commands/command.js:29:26)
+// at Connection.handlePacket (/home/suvarna-sinha/Documents/hospital_healthandwellness/hospital/node_modules/mysql2/lib/connection.js:481:34)
+// at PacketParser.onPacket (/home/suvarna-sinha/Documents/hospital_healthandwellness/hospital/node_modules/mysql2/lib/connection.js:97:12)
+// at PacketParser.executeStart (/home/suvarna-sinha/Documents/hospital_healthandwellness/hospital/node_modules/mysql2/lib/packet_parser.js:75:16)
+// at Socket.<anonymous> (/home/suvarna-sinha/Documents/hospital_healthandwellness/hospital/node_modules/mysql2/lib/connection.js:104:25)
+// at Socket.emit (node:events:513:28)
+// at addChunk (node:internal/streams/readable:315:12)
+// at readableAddChunk (node:internal/streams/readable:289:9)
+// at Socket.Readable.push (node:internal/streams/readable:228:10) {
+// code: 'ER_TRUNCATED_WRONG_VALUE',
+// errno: 1292,
+// sqlState: '22007',
+// sqlMessage: "Incorrect datetime value: 'Invalid date' for column 'reminder_at' at row 1",
+// sql: 'INSERT INTO `reminders` (`id`,`medication_id`,`reminder_at`,`status`,`createdAt`,`updatedAt`) VALUES (DEFAULT,?,?,?,?,?);',
+// parameters: [
+// 10,
+// 'Invalid date',
+// 'pending',
+// '2024-06-04 12:30:00',
+// '2024-06-04 12:30:00'
+// ]
+// },
+// sql: 'INSERT INTO `reminders` (`id`,`medication_id`,`reminder_at`,`status`,`createdAt`,`updatedAt`) VALUES (DEFAULT,?,?,?,?,?);',
+// parameters: [
+// 10,
+// 'Invalid date',
+// 'pending',
+// '2024-06-04 12:30:00',
+// '2024-06-04 12:30:00'
+// ]
+// }
+// [nodemon] app crashed - waiting for file changes before starting...

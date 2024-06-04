@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+ want to add the medication here?? <BR>
+ is it one-time <BR>
+ <a href="/addmedicationonce">ONE TIME MEDICATION</a> <BR>
+ or is it the Recurrsing <BR>
+ <a href = "/addmedicationrecuring">RECURSING MEDICATION</a>
+<table>
+
+  
+  <% medicationdata.forEach(user => { %>
+    <tr>
+     
+      <td><%= user.name %></td>
+      <td><%= user.description %></td>
+      <td><%= user.date %></td>
+      <td><%= user.time %></td>
+      <td><%= user.type %></td>
+      
+    </tr>
+    <% }) %>
+  </table>
+</body>
+</html>
+
+
+
