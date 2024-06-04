@@ -1,26 +1,3 @@
-<!-- <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-</head>
-<body>
-  one time medication <br>
-  <form action="/addmedication" method="post">
-    <input type="text" name="name" id="name" placeholder="name">
-    <input type="text" name="description" id="description" placeholder="description">
-    <input type="date" name="date" id="date">
-    <input type="time" name="time" id="time">
-    <input type="hidden" name="type" id="type" value="one-time">
-    <input type="submit" value="submit">
-  </form>
-</body>
-</html> -->
-
-
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -102,3 +79,39 @@ button {
   
 </script>
 </html>
+
+
+
+
+
+<!-- 
+
+const userLogoutfromOwn = async (req, res) => {
+  try {
+    await destroySession(req.user.userId, req.cookies.token);
+    res.clearCookie("token");
+    res.redirect("/login");
+  } catch (error) {
+    console.log("logout from own function: "+error);
+  }
+};
+
+const userLogoutfromAll = async (req, res) => {
+  try {
+    await destroyAllSession(req.user.userId);
+    res.clearCookie("token");
+    res.redirect("/login");
+  } catch (error) {
+    console.log("logout from all: "+error);
+  }
+};
+
+const userLogoutFromOthers = async (req, res) => {
+  try {
+    const result = await destroySomeSession(req.user.userId, req.cookies.token);
+    res.send("Successfully logout from other!!");
+  } catch (error) {
+    console.log("logout from others: "+error);
+  }
+}; -->
+

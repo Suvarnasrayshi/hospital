@@ -7,7 +7,7 @@ const authenticate = async (req,res,next)=>{
   const token = req.cookies.token;
   console.log("token",token)
   if (!token) {
-    return res.json({ error: 'No token provided' });
+    res.render("login")
   }
 
   if (loggedOutTokens.includes(token)) {
@@ -20,7 +20,7 @@ const authenticate = async (req,res,next)=>{
     }
 
     req.user = decoded;
-    req.token = token; // Attach token to req object for easier access
+    req.token = token;
     next();
   });
 }

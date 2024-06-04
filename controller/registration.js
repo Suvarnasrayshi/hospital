@@ -7,7 +7,7 @@ const cookieParser = require('cookie-parser');
 const jwt = require('jsonwebtoken');
 const bodyParser = require("body-parser");
 const { secretKey, loggedOutTokens } = require('../middleware/authenticate');
-const {user,session}=require('../models')
+const {user,medication}=require('../models')
 
 
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -49,8 +49,9 @@ exports.login=async(req,res)=>{
     const token = jwt.sign({ id: users.id }, secretKey, { expiresIn: '3h' });
   //  res.json({ user: users });
     res.cookie('token', token, { httpOnly: true });
-    console.log(token);
-    res.render("dashboard")
+    // console.log(token);
+    medicationdata = await medication.findAll();
+   res.render('dashboard', { medicationdata })
     //res.status(200).json({ message: 'Logged in successfully' });
   } catch (error) {
     res.json({ error: error.message });
