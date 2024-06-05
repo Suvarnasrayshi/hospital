@@ -37,10 +37,10 @@ console.log(dateWithoutTime);
       console.log(
         "reminder created for one-time medication",medicationdetail.user.email
       );
-      const recipientEmail = medicationdetail.user.email;
-      const subject = 'Medication Reminder';
-      const text = `Please remember to take your medication ${medicationdetail.name} at ${medicationdetail.time}.`;
-      sendEmailNotification(recipientEmail, subject, text);
+      // const recipientEmail = medicationdetail.user.email;
+      // const subject = 'Medication Reminder';
+      // const text = `Please remember to take your medication ${medicationdetail.name} at ${medicationdetail.time}.`;
+      // sendEmailNotification(recipientEmail, subject, text);
     });
    // res.json({once})
   }
@@ -54,7 +54,7 @@ console.log(dateWithoutTime);
         type: "recurring",
         start_date: { [Op.lte]: todayDate },
         end_date: { [Op.gte]: todayDate },
-        day_week: { [Op.like]: `%${todayDay}%` },
+        //day_week: { [Op.like]: `%${todayDay}%` },
       },
     });
 
@@ -63,7 +63,7 @@ console.log(dateWithoutTime);
    recur= recurringMedications.forEach(async (medicationdetail) => {
       await reminder.create({
         medication_id: medicationdetail.id,
-        reminder_at: new Date(`${todayDate} ${medicationdetail.time}`), 
+        reminder_at: new Date(`${dateWithoutTime} ${medicationdetail.time}`), 
         status: "pending",
       });
       console.log(
@@ -72,23 +72,74 @@ console.log(dateWithoutTime);
     });
     const recipientEmail = medicationdetail.user.email;
     const subject = 'Medication Reminder';
-    const text = `Please remember to take your recurring medication ${medicationDetail.name} at ${medicationDetail.time}.`;
-    await sendEmailNotification(recipientEmail, subject, text);
-    // res.json({recur})
+    const text = `Please remember to take your medication ${medicationdetail.name} at ${medicationdetail.time}.`;
+    sendEmailNotification(recipientEmail, subject, text);
   }
   else{
     console.log("no medication has been schedule")
   }
+
+
+  if(recurringMedications){
+    once=recurringMedications.forEach(async (medicationdetail) => {
+      await reminder.create({
+        medication_id: medicationdetail.id,
+        reminder_at: new Date(`${dateWithoutTime} ${medicationdetail.time}`), 
+        status: "pending",
+      });
+      console.log(
+        "reminder created for one-time medication",medicationdetail.user.email
+      );
+      // const recipientEmail = medicationdetail.user.email;
+      // const subject = 'Medication Reminder';
+      // const text = `Please remember to take your medication ${medicationdetail.name} at ${medicationdetail.time}.`;
+      // sendEmailNotification(recipientEmail, subject, text);
+    });
+   // res.json({once})
+  }
+  else{
+    console.log("no medication has been schedule")
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   
 } catch (error) {
   console.error("Error generating reminders:", error);
 }
 };
 // cron.schedule('*/10 * * * *', generateReminders);
-// cron.schedule("0 0 * * * *", function() {  
-cron.schedule("0 * * * *", function() { 
+// cron.schedule("0 0 * * * *", function() { 
 
-  console.log("schedule the cron to run every hour"); 
+
+  
+cron.schedule("* * */7 * *", function() { 
+  console.log("schedule the cron to run daily at midnight"); 
   generateReminders();
 }); 
 // console.log("Cron job for generating reminders is set up.");

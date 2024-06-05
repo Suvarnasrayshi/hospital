@@ -35,10 +35,36 @@ exports.getlogin=async(req,res)=>{
   res.render("login")
 }
 
+// exports.login=async(req,res)=>{
+//   try {
+//     const { email } = req.body;
+
+//     const users = await user.findOne({ where: { email } });
+
+//     if (!users) {
+//       return res.status(401).json({ error: 'Invalid email' });
+//     }
+//     console.log(secretKey);
+//     const token = jwt.sign({ id: users.id }, secretKey, { expiresIn: '3h' });
+//     res.cookie('token', token, { httpOnly: true });
+//     console.log("object",token);
+//     const sessions=await session.create({
+//       user_id:users.id,
+//       session_token:token
+//      });
+//     console.log(sessions);
+//     medicationdata = await medication.findAll();
+//    res.render('dashboard', { medicationdata })
+//     res.status(200).json({ message: 'Logged in successfully' });
+//   } catch (error) {
+//     res.json({ error: error.message });
+//   }
+// }
+
 exports.login=async(req,res)=>{
   try {
     const { email } = req.body;
-
+    // const secretKey = 'secret_key';
     const users = await user.findOne({ where: { email } });
 
     if (!users) {
@@ -46,16 +72,12 @@ exports.login=async(req,res)=>{
     }
     console.log(secretKey);
     const token = jwt.sign({ id: users.id }, secretKey, { expiresIn: '3h' });
+  //  res.json({ user: users });
     res.cookie('token', token, { httpOnly: true });
-    console.log("object",token);
-    const sessions=await session.create({
-      user_id:users.id,
-      session_token:token
-     });
-    console.log(sessions);
-  //   medicationdata = await medication.findAll();
-  //  res.render('dashboard', { medicationdata })
-    res.status(200).json({ message: 'Logged in successfully' });
+    // console.log(token);
+    medicationdata = await medication.findAll();
+   res.render('dashboard', { medicationdata })
+    //res.status(200).json({ message: 'Logged in successfully' });
   } catch (error) {
     res.json({ error: error.message });
   }

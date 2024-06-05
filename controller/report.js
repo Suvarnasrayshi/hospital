@@ -62,7 +62,7 @@ console.log("medicationdetail",medicationdetail)
   sendEmailNotification(recipientEmail, subject, text, attachment);
 }
 
-// cron.schedule('0 0 * * 0', () => {
+// // cron.schedule('0 0 * * 0', () => {
   cron.schedule('* * */7 * *', () => {
   console.log('making weekly report generation...');
   reportgenrator();
