@@ -8,7 +8,7 @@ const cron = require("node-cron");
 const { sendEmailNotification } = require('../service/email'); 
 
 // exports.generateReminders = cron.schedule("0 0 * * *", async (req,res) => {
-  const generateReminders=async (req,res) => {
+  const generateReminders=async () => {
   // const todayDate = new Date();
   // todayDate.setHours(0, 0, 0, 0);
   const todayDate = new Date();
@@ -23,7 +23,7 @@ console.log(dateWithoutTime);
        // [Op.and]: where(fn('DATE', col('date')), dateWithoutTime),
         // deletedAt: null,
       },
-      include: [user] // Include user model to fetch user details
+      include: [user] 
     });
     // res.json({oneTimeMedications})
 
@@ -85,8 +85,10 @@ console.log(dateWithoutTime);
 }
 };
 // cron.schedule('*/10 * * * *', generateReminders);
-cron.schedule("0 0 * * * *", function() { 
-  console.log("schedule the cron to run daily at midnight"); 
+// cron.schedule("0 0 * * * *", function() {  
+cron.schedule("0 * * * *", function() { 
+
+  console.log("schedule the cron to run every hour"); 
   generateReminders();
 }); 
 // console.log("Cron job for generating reminders is set up.");
