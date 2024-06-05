@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Logout</title>
+  <style>
+    button {
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+}
+  </style>
+</head>
+<body>
+  <form action="/logout" method="post" id="logoutForm">
+    <button type="submit">Logout</button>
+  </form>
+</body>
+<!-- <script>
+ const form = document.getElementById('logoutForm')
+    form.addEventListener('submit', async function (e) {
+      e.preventDefault();
+      
+      const response = await fetch('/logout', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+      });
+
+      if (response.ok) {
+        window.location.href = '/login';
+      } else {
+        const data = await response.json();
+        alert(data.message);
+      }
+    });
+</script> -->
+
+
+
+<script>
+  document.ocument.getElementById('logoutForm').addEventListener('click', async function (e) {
+    e.preventDefault();
+    const response = await fetch('/logout', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+
+    if (response.ok) {
+      window.location.href = '/login';
+    } else {
+      const data = await response.json();
+      alert(data.message);
+    }
+  });
+</script>
+</html>

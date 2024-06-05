@@ -79,39 +79,3 @@ button {
   
 </script>
 </html>
-
-
-
-
-
-<!-- 
-
-const userLogoutfromOwn = async (req, res) => {
-  try {
-    await destroySession(req.user.userId, req.cookies.token);
-    res.clearCookie("token");
-    res.redirect("/login");
-  } catch (error) {
-    console.log("logout from own function: "+error);
-  }
-};
-
-const userLogoutfromAll = async (req, res) => {
-  try {
-    await destroyAllSession(req.user.userId);
-    res.clearCookie("token");
-    res.redirect("/login");
-  } catch (error) {
-    console.log("logout from all: "+error);
-  }
-};
-
-const userLogoutFromOthers = async (req, res) => {
-  try {
-    const result = await destroySomeSession(req.user.userId, req.cookies.token);
-    res.send("Successfully logout from other!!");
-  } catch (error) {
-    console.log("logout from others: "+error);
-  }
-}; -->
-

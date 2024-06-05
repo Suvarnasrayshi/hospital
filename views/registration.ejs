@@ -65,7 +65,7 @@ button:hover {
 </head>
 <body>
    
-    <form action="/registration" method="POST">
+    <form action="/registration" method="POST" id="registrationForm">
       <h1>
         REGISTRATION
       </h1>
@@ -80,5 +80,29 @@ button:hover {
         
         <button type="submit">Register</button>
     </form>
+    <!-- <script>
+        const form = document.getElementById('registrationForm')
+    form.addEventListener('submit', async function (e) {
+      e.preventDefault();
+      let login_data = {
+          username,
+          email,
+          password
+        };
+      const response = await fetch('/registration', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(login_data)
+      });
+      if (response.ok) {
+        window.location.href = '/login';
+      } else {
+        const data = await response.json();
+        alert(data.message);
+      }
+    });
+    </script> -->
 </body>
 </html>

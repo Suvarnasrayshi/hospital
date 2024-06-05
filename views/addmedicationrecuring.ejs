@@ -3,31 +3,90 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
+  <title>Medication Form</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      margin-top: 100px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+    }
+
+    h1 {
+      color: #333;
+    }
+
+    .container {
+      background-color: #e5e1e1;
+      padding: 20px;
+      border-radius: 8px;
+      margin: 20px 0;
+      width: 80%;
+      max-width: 500px;
+    }
+
+    .container form {
+      display: flex;
+      flex-direction: column;
+    }
+
+    input, button , select {
+      padding: 10px;
+      margin: 5px 0;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+}
+
+    #day_week_container {
+      display: none;
+    }
+    
+  </style>
 </head>
 <body>
-  recurring medication <br>
-  <form action="/addmedication" method="post">
-    <input type="text" name="name" id="name" placeholder="name">
-    <input type="text" name="description" id="description" placeholder="description">
-    <input type="date" name="start_date" id="start_date">
-    <input type="date" name="end_date" id="end_date">
-    <input type="time" name="time" id="time">
-    <input type="text" name="day_week" id="day_week" placeholder="(monday,tuesday)">
-    <input type="text" name="type" id="type" value="recurring">
-    <input type="text" name="rec_type" id="rec_type" value="weekly" >
-    <input type="submit" value="submit">
+  <div class="container">
+    <h2>Recurring Medication</h2>
+    <form action="/addmedication" method="post">
+      <input type="text" name="name" id="name" placeholder="Name" required>
+      <input type="text" name="description" id="description" placeholder="Description" required>
+      <input type="date" name="start_date" id="start_date" required>
+      <input type="date" name="end_date" id="end_date" required>
+      <input type="time" name="time" id="time" required>
+      <select name="rec_type" id="rec_type" required onclick="weekdropdown()">
+        <option value="daily">Daily</option>
+        <option value="weekly">Weekly</option>
+      </select>
+      <div id="weekdropdown">
+        <select name="day_week" id="day_week">
+          <option value="monday">Monday</option>
+          <option value="tuesday">Tuesday</option>
+          <option value="wednesday">Wednesday</option>
+          <option value="thursday">Thursday</option>
+          <option value="friday">Friday</option>
+          <option value="saturday">Saturday</option>
+          <option value="sunday">Sunday</option>
+        </select>
+      </div>
+      <input type="hidden" name="type" id="type" value="recurring">
+      <input type="submit" value="Submit">
     </form>
-<br>
-<form action="/addmedication" method="post">
-  <input type="text" name="name" id="name" placeholder="name">
-  <input type="text" name="description" id="description" placeholder="description">
-  <input type="date" name="start_date" id="start_date">
-  <input type="date" name="end_date" id="end_date">
-  <input type="time" name="time" id="time">
-  <input type="text" name="type" id="type" value="recurring">
-  <input type="text" name="rec_type" id="rec_type" value="daily">
-  <input type="submit" value="submit">
-  </form>
+  </div>
+
+  <script>
+    function weekdropdown() {
+      const rectype = document.getElementById('rec_type');
+      const weekselect = document.getElementById('weekdropdown');
+
+      if (rectype.value === 'weekly') {
+        weekselect.style.display = 'block';
+      } else {
+        weekselect.style.display = 'none';
+      }
+    }
+
+  </script>
 </body>
 </html>

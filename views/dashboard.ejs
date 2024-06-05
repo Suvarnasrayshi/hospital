@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -35,4 +35,141 @@
 </html>
 
 
+ -->
 
+
+ <!-- index.ejs -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Medication List</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      width: 80%;
+      margin: 20px auto;
+      overflow: hidden;
+    }
+    h1, h2, h3 {
+      text-align: center;
+      color: #333;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+      background-color: #fff;
+    }
+    th, td {
+      padding: 8px 12px;
+      text-align: left;
+      border: 1px solid #ddd;
+    }
+    /* th {
+      background-color: #f2f2f2;
+    }
+    tr:nth-child(even) {
+      background-color: #f9f9f9;
+    } */
+    .one-time {
+      background-color: #e0f7fa;
+    }
+    .recurring {
+      background-color: #ffebee;
+    }
+    a {
+      display: inline-block;
+      margin: 10px 5px;
+      padding: 10px 20px;
+      background-color: #007bff;
+      color: #fff;
+      text-decoration: none;
+      border-radius: 4px;
+      text-align: center;
+    }
+    a:hover {
+      background-color: #0056b3;
+    }
+    .typecontainer {
+      text-align: center;
+    }
+    .logout {
+      padding-top: 20px;
+      padding-left: 100px;
+   
+    }
+  </style>
+</head>
+<body>
+  <div class="logout">
+    <%- include('./partials/logout'); %>
+  </div>
+  <div class="container">
+    <h1>Medication Management</h1>
+    <div class="typecontainer">
+      <p>Want to add the medication here?</p>
+      <p>Is it one-time?</p>
+      <a href="/addmedicationonce">ONE TIME MEDICATION</a>
+      <p>Or is it recurring?</p>
+      <a href="/addmedicationrecuring">RECURRING MEDICATION</a>
+    </div>
+
+    <h2>Medication List</h2>
+
+    <h3>One-Time Medications</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Description</th>
+          <th>Date</th>
+          <th>Time</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% medicationdata.filter(user => user.type === 'one-time').forEach(user => { %>
+          <tr class="one-time">
+            <td><%= user.name %></td>
+            <td><%= user.description %></td>
+            <td><%= user.date %></td>
+            <td><%= user.time %></td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+
+    <h3>Recurring Medications</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Description</th>
+          <th>Start Date</th>
+          <th>End Date</th>
+          <th>Time</th>
+          <th>Frequency</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% medicationdata.filter(user => user.type === 'recurring').forEach(user => { %>
+          <tr class="recurring">
+            <td><%= user.name %></td>
+            <td><%= user.description %></td>
+            <td><%= user.start_date %></td>
+            <td><%= user.end_date %></td>
+            <td><%= user.time %></td>
+            <td><%= user.rec_type %></td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </div>
+</body>
+</html>
