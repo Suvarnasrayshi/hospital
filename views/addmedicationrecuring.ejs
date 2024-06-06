@@ -20,7 +20,7 @@
     }
 
     .container {
-      background-color: #e5e1e1;
+      background-color: #fff;
       padding: 20px;
       border-radius: 8px;
       margin: 20px 0;
@@ -36,8 +36,12 @@
     input, button , select {
       padding: 10px;
       margin: 5px 0;
-      border: 1px solid #ccc;
+      /* //border: 1px solid #ccc; */
       border-radius: 4px;
+}
+input[type=submit] {
+  background-color: #007bff;
+  color: white;
 }
 
     #day_week_container {
@@ -61,6 +65,7 @@
       </select>
       <div id="weekdropdown">
         <select name="day_week" id="day_week">
+          <option>Days</option>
           <option value="monday">Monday</option>
           <option value="tuesday">Tuesday</option>
           <option value="wednesday">Wednesday</option>

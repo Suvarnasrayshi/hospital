@@ -1,44 +1,3 @@
-<!-- <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-  <style>
-    table, th, td {
-  border: 1px solid;
-}
-  </style>
-</head>
-<body>
- want to add the medication here?? <BR>
- is it one-time <BR>
- <a href="/addmedicationonce">ONE TIME MEDICATION</a> <BR>
- or is it the Recurrsing <BR>
- <a href = "/addmedicationrecuring">RECURSING MEDICATION</a>
-<table>
-
-  
-  <% medicationdata.forEach(user => { %>
-    <tr>
-     
-      <td><%= user.name %></td>
-      <td><%= user.description %></td>
-      <td><%= user.date %></td>
-      <td><%= user.time %></td>
-      <td><%= user.type %></td>
-      
-    </tr>
-    <% }) %>
-  </table>
-</body>
-</html>
-
-
- -->
-
-
- <!-- index.ejs -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -72,12 +31,7 @@
       text-align: left;
       border: 1px solid #ddd;
     }
-    /* th {
-      background-color: #f2f2f2;
-    }
-    tr:nth-child(even) {
-      background-color: #f9f9f9;
-    } */
+
     .one-time {
       background-color: #e0f7fa;
     }
@@ -103,7 +57,7 @@
     .logout {
       padding-top: 20px;
       padding-left: 100px;
-   
+  
     }
   </style>
 </head>
@@ -112,7 +66,7 @@
     <%- include('./partials/logout'); %>
   </div>
   <div class="container">
-    <h1>Medication Management</h1>
+    <h1>Health and Wellness Management </h1>
     <div class="typecontainer">
       <p>Want to add the medication here?</p>
       <p>Is it one-time?</p>
@@ -121,55 +75,7 @@
       <a href="/addmedicationrecuring">RECURRING MEDICATION</a>
     </div>
 
-    <h2>Medication List</h2>
 
-    <h3>One-Time Medications</h3>
-    <table>
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Description</th>
-          <th>Date</th>
-          <th>Time</th>
-        </tr>
-      </thead>
-      <tbody>
-        <% medicationdata.filter(user => user.type === 'one-time').forEach(user => { %>
-          <tr class="one-time">
-            <td><%= user.name %></td>
-            <td><%= user.description %></td>
-            <td><%= user.date %></td>
-            <td><%= user.time %></td>
-          </tr>
-        <% }) %>
-      </tbody>
-    </table>
-
-    <h3>Recurring Medications</h3>
-    <table>
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Description</th>
-          <th>Start Date</th>
-          <th>End Date</th>
-          <th>Time</th>
-          <th>Frequency</th>
-        </tr>
-      </thead>
-      <tbody>
-        <% medicationdata.filter(user => user.type === 'recurring').forEach(user => { %>
-          <tr class="recurring">
-            <td><%= user.name %></td>
-            <td><%= user.description %></td>
-            <td><%= user.start_date %></td>
-            <td><%= user.end_date %></td>
-            <td><%= user.time %></td>
-            <td><%= user.rec_type %></td>
-          </tr>
-        <% }) %>
-      </tbody>
-    </table>
   </div>
 </body>
 </html>

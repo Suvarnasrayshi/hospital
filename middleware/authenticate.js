@@ -1,17 +1,15 @@
 const jwt = require('jsonwebtoken');
-const secretKey = 'secret_key';
+// const secretKey = 'secret_key';
+require('dotenv').config();
+
+const secretKey = process.env.SECRET_KEY;
 
 
-let loggedOutTokens = [];
 const authenticate = async (req,res,next)=>{
   const token = req.cookies.token;
   console.log("token",token)
   if (!token) {
     res.render("login")
-  }
-
-  if (loggedOutTokens.includes(token)) {
-    return res.json({ error: 'Token is logged out' });
   }
 
   jwt.verify(token, secretKey, (err, decoded) => {
@@ -25,4 +23,4 @@ const authenticate = async (req,res,next)=>{
   });
 }
 
-module.exports = { authenticate, loggedOutTokens, secretKey };
+module.exports = { authenticate };

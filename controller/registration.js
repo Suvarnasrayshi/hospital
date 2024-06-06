@@ -1,14 +1,14 @@
 const express = require("express");
 const app = express();
-const Sequelize = require("sequelize");
 app.set("view engine", "ejs");
 const router = express.Router();
 const cookieParser = require('cookie-parser');
 const jwt = require('jsonwebtoken');
 const bodyParser = require("body-parser");
-const { secretKey, loggedOutTokens } = require('../middleware/authenticate');
-const {user,medication,session}=require('../models')
+const {user,session}=require('../models')
+require('dotenv').config();
 
+const secretKey = process.env.SECRET_KEY;
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
@@ -35,60 +35,32 @@ exports.getlogin=async(req,res)=>{
   res.render("login")
 }
 
-// exports.login=async(req,res)=>{
-//   try {
-//     const { email } = req.body;
 
-//     const users = await user.findOne({ where: { email } });
-
-//     if (!users) {
-//       return res.status(401).json({ error: 'Invalid email' });
-//     }
-//     console.log(secretKey);
-//     const token = jwt.sign({ id: users.id }, secretKey, { expiresIn: '3h' });
-//     res.cookie('token', token, { httpOnly: true });
-//     console.log("object",token);
-//     const sessions=await session.create({
-//       user_id:users.id,
-//       session_token:token
-//      });
-//     console.log(sessions);
-//     medicationdata = await medication.findAll();
-//    res.render('dashboard', { medicationdata })
-//     res.status(200).json({ message: 'Logged in successfully' });
-//   } catch (error) {
-//     res.json({ error: error.message });
-//   }
-// }
-
-exports.login=async(req,res)=>{
+exports.login = async (req, res) => {
   try {
     const { email } = req.body;
-    // const secretKey = 'secret_key';
     const users = await user.findOne({ where: { email } });
 
     if (!users) {
       return res.status(401).json({ error: 'Invalid email' });
     }
-    console.log(secretKey);
+
     const token = jwt.sign({ id: users.id }, secretKey, { expiresIn: '3h' });
-  //  res.json({ user: users });
     res.cookie('token', token, { httpOnly: true });
-    // console.log(token);
-    medicationdata = await medication.findAll();
-   res.render('dashboard', { medicationdata })
-    //res.status(200).json({ message: 'Logged in successfully' });
+
+    // Retrieve medication data for the logged-in user
+    const medicationdata = await medication.findAll({ where: { user_id: users.id } });
+
+    res.render('dashboard', { userMedications: medicationdata });
   } catch (error) {
     res.json({ error: error.message });
   }
-}
+};
+
+
 
   exports.dashboard=async(req,res)=>{
-    medicationdata = await medication.findAll();
-    userdetail=await user.findAll({
-     
-    });
-    res.render('dashboard', { medicationdata,userdetail })
+    res.render('dashboard')
    
      
 };
@@ -102,6 +74,7 @@ exports.logout = async (req, res) => {
       where: { user_id: req.user.id, session_token: token },
     });
     res.clearCookie("token");
+    res.redirect("/login")
   } catch (error) {
     console.log("logout from own function: "+error);
   }
@@ -115,6 +88,8 @@ exports.logoutalltheuser = async (req, res) => {
       where: { user_id: req.user.id },
     });
     res.clearCookie("token");
+    res.redirect("/login")
+
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
@@ -134,6 +109,8 @@ exports.logoutothersevice = async (req, res) => {
       },
     })
     res.clearCookie("token");
+    res.redirect("/login")
+
   } catch (error) {
     res.status(400).json({ error: error.message });
   }

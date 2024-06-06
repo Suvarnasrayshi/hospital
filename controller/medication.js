@@ -1,11 +1,7 @@
 const express = require("express");
 const app = express();
-const sequelize = require("../utils/database");
-const Sequelize = require("sequelize");
 app.set("view engine", "ejs");
-const router = express.Router();
 const bodyParser = require("body-parser");
-const jwt = require('jsonwebtoken');
 const { user, medication } = require('../models')
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -26,20 +22,20 @@ app.use(bodyParser.urlencoded({ extended: true }));
         mark_as_done:0
       });
     } else if (type === 'recurring') {
-    //   if(rec_type==='daily'){
-    //   newMedication = await medication.create({
-    //     user_id,
-    //     name,
-    //     description,
-    //     type,
-    //     rec_type,
-    //     start_date,
-    //     end_date,
-    //     time,
-    //     mark_as_done:0
-    //   });
-    // }
-    // if(rec_type === 'weekly'){
+      if(rec_type==='daily'){
+      newMedication = await medication.create({
+        user_id,
+        name,
+        description,
+        type,
+        rec_type,
+        start_date,
+        end_date,
+        time,
+        mark_as_done:0
+      });
+    }
+    if(rec_type === 'weekly'){
       newMedication = await medication.create({
         user_id,
         name,
@@ -52,7 +48,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
         day_week, //(monday,tuesday)
         mark_as_done:0
       });
-    // }
+    }
     } else {
       return res.status(400).json({ error: 'Invalid medication type' });
 
@@ -69,7 +65,13 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 
 exports.addmedicationonce = async (req, res) => {
+  // userMedications=await user.findAll({
+  //   where: { id: req.user.id } 
+  // });
+
+  // res.render("addmedicationonce",{userMedications})
   res.render("addmedicationonce")
+
 }
 exports.addmedicationrecuring = async (req, res) => {
   res.render("addmedicationrecuring")

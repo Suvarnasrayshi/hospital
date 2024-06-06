@@ -18,7 +18,7 @@ router.post("/logoutalltheuser",authenticate,logoutalltheuser);
 router.post("/logoutothersevice",authenticate,logoutothersevice);
 router.post("/addmedication", authenticate, addMedication);
 router.get("/addmedication", authenticate, addMedication);
-router.get("/addmedicationonce", authenticate, addmedicationonce);
+router.get("/addmedicationonce", addmedicationonce);
 router.get("/addmedicationrecuring", authenticate, addmedicationrecuring);
 router.post("/reminder",authenticate, generateReminders);
 router.post("/report",authenticate,reportgenrator)
