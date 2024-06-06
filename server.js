@@ -14,7 +14,11 @@ app.use(cookieParser());
 // app.use(express.json());
 const router = express.Router();
 router.use(express.json())
-router.use(express.urlencoded({ extended: true }));
+
+
+app.use(bodyParser.json()) // for parsing application/json
+app.use(bodyParser.urlencoded({ extended: true }))
+
 app.use("/", dataRoutes);
 
 app.listen(process.env.PORT || 3001, () => {

@@ -76,8 +76,9 @@ button:hover {
       
       <button type="submit" >Login</button>
   </form>
-  <!-- <script>
-    const form = document.getElementById('loginForm')
+</body>
+<script>
+  const form = document.getElementById('loginForm')
     form.addEventListener('submit', async function (e) {
       e.preventDefault();
       const email = document.getElementById('email').value;
@@ -86,12 +87,14 @@ button:hover {
           email,
           password,
         };
-        console.log(login_data);
       const response = await fetch('/login', {
         method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
         body: JSON.stringify(login_data)
       });
-      console.log("object");
+
       if (response.ok) {
         window.location.href = '/dashboard';
       } else {
@@ -99,6 +102,5 @@ button:hover {
         alert(data.message);
       }
     });
-  </script> -->
-</body>
+</script>
 </html>
