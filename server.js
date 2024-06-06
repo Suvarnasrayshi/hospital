@@ -5,16 +5,20 @@ const bodyParser = require("body-parser");
 const cron = require('node-cron');
 const reportGenerator=require("./controller/report.js")
 const dataRoutes = require("./router/router.js")
+require('dotenv').config();
 
 
 app.set("view engine", "ejs");
-app.use(bodyParser.urlencoded({ extended: true }));
+// app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
-
+// app.use(express.json());
+const router = express.Router();
+router.use(express.json())
+router.use(express.urlencoded({ extended: true }));
 app.use("/", dataRoutes);
 
-app.listen(process.env.PORT || 3023, () => {
-  console.log("Running at Port 3023");
+app.listen(process.env.PORT || 3001, () => {
+  console.log("Running at Port 3001");
 });
 
 

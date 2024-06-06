@@ -76,7 +76,7 @@ button:hover {
       
       <button type="submit" >Login</button>
   </form>
-  <script>
+  <!-- <script>
     const form = document.getElementById('loginForm')
     form.addEventListener('submit', async function (e) {
       e.preventDefault();
@@ -89,9 +89,6 @@ button:hover {
         console.log(login_data);
       const response = await fetch('/login', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded'
-        },
         body: JSON.stringify(login_data)
       });
       console.log("object");
@@ -102,6 +99,6 @@ button:hover {
         alert(data.message);
       }
     });
-  </script>
+  </script> -->
 </body>
 </html>

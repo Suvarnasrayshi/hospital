@@ -11,7 +11,7 @@ const { reportgenrator, upload } = require('../controller/report');
 router.get("/",getregister);
 router.post("/registration", registration);
 router.get("/login", getlogin);
-router.get("/dashboard",dashboard);
+router.get("/dashboard",authenticate,dashboard);
 router.post("/login", login);
 router.post("/logout",authenticate, logout);
 router.post("/logoutalltheuser",authenticate,logoutalltheuser);

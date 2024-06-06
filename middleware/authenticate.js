@@ -1,9 +1,5 @@
 const jwt = require('jsonwebtoken');
-// const secretKey = 'secret_key';
-require('dotenv').config();
-
-const secretKey = process.env.SECRET_KEY;
-
+const secretKey = 'secret_key';
 
 const authenticate = async (req,res,next)=>{
   const token = req.cookies.token;
@@ -23,4 +19,4 @@ const authenticate = async (req,res,next)=>{
   });
 }
 
-module.exports = { authenticate };
+module.exports = { authenticate, secretKey };
