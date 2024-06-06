@@ -1,65 +1,102 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Logout</title>
-  <style>
-    button {
-    padding: 10px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    font-size: 16px;
-    cursor: pointer;
-}
-  </style>
-</head>
-<body>
-  <form action="/logout" method="post" id="logoutForm">
-    <button type="submit">Logout</button>
-  </form>
-</body>
-<!-- <script>
- const form = document.getElementById('logoutForm')
-    form.addEventListener('submit', async function (e) {
-      e.preventDefault();
-      
-      const response = await fetch('/logout', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Logout</title>
+    <style>
+      button {
+        padding: 10px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        font-size: 16px;
+        cursor: pointer;
+        margin-right: 30px;
+      }
+      .button-row {
+        display: flex;
+        flex-direction: row;
+        margin-left: 350px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="button-row">
+      <form action="/logout" method="post" id="logoutForm">
+        <button type="submit"><i>Logout</i></button>
+      </form>
+      <form action="/logoutalltheuser" method="post" id="logoutalltheuserform">
+        <button type="submit"><i>Log me out from all devices</i></button>
+      </form>
+
+      <form
+        action="/logoutothersevice"
+        method="post"
+        id="logoutotherseviceform"
+      >
+        <button type="submit"><i>Log me out from other devices.</i></button>
+      </form>
+    </div>
+  </body>
+
+  <script>
+    document
+      .getElementById("logoutForm")
+      .addEventListener("click", async function (e) {
+        e.preventDefault();
+        const response = await fetch("/logout", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+
+        if (response.ok) {
+          window.location.href = "/login";
+        } else {
+          const data = await response.json();
+          alert(data.message);
+        }
       });
 
-      if (response.ok) {
-        window.location.href = '/login';
-      } else {
-        const data = await response.json();
-        alert(data.message);
-      }
-    });
-</script> -->
+    document
+      .getElementById("logoutalltheuserform")
+      .addEventListener("click", async function (e) {
+        e.preventDefault();
+        const response = await fetch("/logoutalltheuser", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+console.log(response);
+        if (response.ok) {
+          window.location.href = "/login";
+        } else {
+          const data = await response.json();
+          alert(data.message);
+        }
+      });
 
-
-
-<script>
-  document.ocument.getElementById('logoutForm').addEventListener('click', async function (e) {
-    e.preventDefault();
-    const response = await fetch('/logout', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    });
-
-    if (response.ok) {
-      window.location.href = '/login';
-    } else {
-      const data = await response.json();
-      alert(data.message);
-    }
-  });
-</script>
+    document
+      .getElementById("logoutotherseviceform")
+      .addEventListener("click", async function (e) {
+        e.preventDefault();
+        const response = await fetch("/logoutothersevice", {
+          method: "POST",
+          header: {
+            "Content-Type": "application/json",
+          },
+        });
+        console.log(response);
+        if (response.ok) {
+          window.locatoin.href = "/login";
+        } else {
+          const data = await response.json();
+          alert(data.message);
+        }
+      });
+  </script>
 </html>

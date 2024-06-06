@@ -1,79 +1,109 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Medication Management</title>
- <style>
-  body {
-      font-family: Arial, sans-serif;
-      background-color: #f4f4f4;
-      margin-top: 100px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-direction: column;
-    }
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Medication Management</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        margin-top: 100px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+      }
 
-    h1 {
-      color: #333;
-    }
+      h1 {
+        color: #333;
+      }
 
-    .container {
-      background-color: #fff;
-      padding: 20px;
-      border-radius: 8px;
-      margin: 20px 0;
-      width: 80%;
-      max-width: 500px;
-    }
+      .container {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        margin: 20px 0;
+        width: 80%;
+        max-width: 500px;
+      }
 
-    .container form {
-      display: flex;
-      flex-direction: column;
-    }
+      .container form {
+        display: flex;
+        flex-direction: column;
+      }
 
-    input, button , select {
-      padding: 10px;
-      margin: 5px 0;
-      /* //border: 1px solid #ccc; */
-      border-radius: 4px;
-}
+      input,
+      button,
+      select {
+        padding: 10px;
+        margin: 5px 0;
+        /* //border: 1px solid #ccc; */
+        border-radius: 4px;
+      }
 
-input[type=submit] {
-  background-color: #007bff;
-  color: white;
-} 
-
- </style>
-
-</head>
-<body>
-  <div class="container">
-    <h1>Medication Entry Present</h1>
-    <form action="/addmedication" method="post">
-     
+      input[type="submit"] {
+        background-color: #007bff;
+        color: white;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Medication Entry Present</h1>
+      <form action="/addmedication" method="post" id="onetime">
         <label for="name">Medicine Name:</label>
-        <input type="text" id="name" name="name" required>
+        <input type="text" id="name" name="name" required />
 
-      
         <label for="description">Description:</label>
-        <input type="text" id="description" name="description" required>
-      
-        <label for="date">Date:</label>
-        <input type="date" id="date" name="date">
-        <label for="time">Time:</label>
-        <input type="time" id="time" name="time">
-        <input type="hidden" name="type" id="type" value="one-time">
-      
-        <input type="submit" value="Submit">
-    </form>
+        <input type="text" id="description" name="description" required />
 
-    <h2>Current Medications</h2>
-    <ul id="medicationList"></ul>
-  </div>
-</body>
-<script>
-  
-</script>
+        <label for="date">Date:</label>
+        <input type="date" id="date" name="date" />
+        <label for="time">Time:</label>
+        <input type="time" id="time" name="time" />
+        <input type="hidden" name="type" id="type" value="one-time" />
+
+        <input type="submit" value="Submit" />
+      </form>
+    </div>
+    <script>
+      const form = document.getElementById("onetime");
+      form.addEventListener("submit", async function (e) {
+        e.preventDefault();
+        const name = document.getElementById("name").value;
+        const description = document.getElementById("description").value;
+        const date = document.getElementById("date").value;
+        const time = document.getElementById("time").value;
+        const type = document.getElementById("type").value;
+        let medicationData = {
+          name,
+          description,
+          date,
+          time,
+          type,
+        };
+        console.log(medicationData);
+        try {
+          const response = await fetch("/addmedication", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(medicationData),
+          });
+
+          if (response.ok) {
+            const result = await response.json();
+            window.location.href = "/dashboard";
+          } else {
+            const error = await response.json();
+            alert(`Error: ${error.message}`);
+          }
+        } catch (error) {
+          alert("An error occurred while adding medication");
+        }
+      });
+    </script>
+  </body>
 </html>

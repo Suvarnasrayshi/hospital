@@ -64,7 +64,7 @@ const generateReminders = async () => {
 };
 
 // Schedule the cron job to run daily at midnight
-cron.schedule("0 * * * *", function() {
+cron.schedule("0 0 * * *", function() {
   console.log("Scheduled the cron to run daily at midnight");
   generateReminders();
 });

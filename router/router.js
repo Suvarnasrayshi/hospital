@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { registration, login, logout, logoutalltheuser, getregister, getlogin, dashboard, logoutothersevice } = require('../controller/registration');
+const { registration, login, logout, logoutalltheuser, getregister, getlogin, dashboard, logoutothersevice,forgetpassword,getforgetpassword} = require('../controller/registration');
 const { addMedication, addmedicationonce, addmedicationrecuring } = require('../controller/medication');
 const { generateReminders } = require('../controller/reminder');
 const { authenticate } = require('../middleware/authenticate');
@@ -11,15 +11,17 @@ router.post("/registration", registration);
 router.get("/login", getlogin);
 router.get("/dashboard", authenticate, dashboard);
 router.post("/login", login);
+router.post("/forgetpassword",forgetpassword),
+router.get("/getforgetpassword",getforgetpassword)
 router.post("/logout", authenticate, logout);
 router.post("/logoutalltheuser", authenticate, logoutalltheuser);
 router.post("/logoutothersevice", authenticate, logoutothersevice);
 router.post("/addmedication", authenticate, addMedication);
-router.get("/addmedication", authenticate, addMedication);
-router.get("/addmedicationonce", addmedicationonce);
+router.get("/addmedicationonce", authenticate, addmedicationonce);
 router.get("/addmedicationrecuring", authenticate, addmedicationrecuring);
 router.post("/reminder", authenticate, generateReminders);
 router.post("/report", authenticate, reportgenrator);
-// router.post("/report", upload.single('file'), authenticate, reportgenrator);
 
 module.exports = router;
+
+// router.post("/report", upload.single('file'), authenticate, reportgenrator);
