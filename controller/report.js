@@ -67,7 +67,7 @@ let endOfWeek = new Date(today.setDate(last)).toISOString().split('T')[0];
 };
 
 // Schedule the cron job to run weekly
-cron.schedule('* * */7 * *', () => {
+cron.schedule('* * * * */6', () => {
   console.log('Generating weekly report...');
   reportgenrator();
 });

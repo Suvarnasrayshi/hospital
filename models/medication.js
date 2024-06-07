@@ -31,6 +31,7 @@ module.exports = (sequelize, DataTypes) => {
     end_date: DataTypes.DATE,
     time: DataTypes.TIME,
     day_week: DataTypes.STRING,
+    mark_as_done:DataTypes.BOOLEAN,
     deletedAt: {
       type: DataTypes.DATE,
       allowNull: true

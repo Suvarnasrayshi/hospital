@@ -2,7 +2,7 @@ const express = require("express");
 const app = express();
 app.set("view engine", "ejs");
 const bodyParser = require("body-parser");
-const { user, medication } = require("../models");
+const { user, medication,reminder } = require("../models");
 app.use(bodyParser.urlencoded({ extended: true }));
 
 exports.addMedication = async (req, res) => {
@@ -81,3 +81,27 @@ exports.addmedicationonce = async (req, res) => {
 exports.addmedicationrecuring = async (req, res) => {
   res.render("addmedicationrecuring");
 };
+
+
+
+
+exports.marksasdone = async(req,res) =>{
+  const { medication_id } = req.params;
+  console.log(req.params);
+  try {
+    const updatedMedication = await medication.update(
+      { mark_as_done: 1 },
+       { where: { id: medication_id } }
+    );
+    if(updatedMedication){
+      const reminder_delete =await reminder.destroy({
+        where:{medication_id:medication_id}
+      })
+    }
+    console.log(updatedMedication);
+    res.status(200).json({ message: 'Medication marked as done successfully' });
+  } catch (error) {
+    console.error('Error marking medication as done:', error);
+    res.status(500).json({ error: 'Failed to mark medication as done' });
+  }
+}

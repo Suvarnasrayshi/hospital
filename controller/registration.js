@@ -22,21 +22,21 @@ app.use(cookieParser());
 exports.getregister = async (req, res) => {
   res.render("registration");
 };
+
 exports.registration = async (req, res) => {
   const { username, email, password } = req.body;
 
   try {
-    const register = await user.create({
+    const newUser = await user.create({
       username,
       email,
       password,
     });
-    res.render("login");
+    res.status(200).json({ message: "Registration successful" });
   } catch (error) {
-    res.json({ error });
+    res.status(500).json({ error: error.message });
   }
 };
-
 exports.forgetpassword = async(req,res)=>{
   const {email,password}=req.body;
   console.log(req.body);
