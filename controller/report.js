@@ -3,20 +3,21 @@ const app = express();
 const cron = require('node-cron');
 const fs = require('fs');
 const { Op } = require('sequelize');
-const { medication,report,user } = require('../models');
+const { medication, report, user } = require('../models');
 const bodyParser = require("body-parser");
 app.use(bodyParser.urlencoded({ extended: true }));
 app.set("view engine", "ejs");
-const {sendEmailNotification} = require("../service/email")
+const { sendEmailNotification } = require("../service/email");
+const { ReportQueue } = require("../service/producer");
 
 
 const reportgenrator = async () => {
-  const filepath = '/home/suvarna-sinha/Documents/hospitalcsvvvvvvvvvv/'+ Date.now()+'.csv';
-  const today= new Date();
-let first = today.getDate() - today.getDay(); 
-let last = first + 6; 
-let startOfWeek = new Date(today.setDate(first)).toISOString().split('T')[0];
-let endOfWeek = new Date(today.setDate(last)).toISOString().split('T')[0];
+  const filepath = '/home/suvarna-sinha/Documents/hospitalcsvvvvvvvvvv/' + Date.now() + '.csv';
+  const today = new Date();
+  let first = today.getDate() - today.getDay();
+  let last = first + 6;
+  let startOfWeek = new Date(today.setDate(first)).toISOString().split('T')[0];
+  let endOfWeek = new Date(today.setDate(last)).toISOString().split('T')[0];
   // const startOfWeek = new Date(today.setDate(today.getDate() - today.getDay())).toISOString().split('T')[0];
   // const endOfWeek = new Date(today.setDate(today.getDate() - today.getDay() + 6)).toISOString().split('T')[0];
   try {
@@ -49,10 +50,16 @@ let endOfWeek = new Date(today.setDate(last)).toISOString().split('T')[0];
             console.log("Data saved !!!");
             console.log(filepath);
 
-            const recipientEmail = medicationDetails[0].email;
-            const subject = 'Weekly Report';
-            const text = `Here is your weekly report for the ${medicationDetails[0].description}`;
-            sendEmailNotification(recipientEmail, subject, text, filepath);
+            // const recipientEmail = medicationDetails[0].email;
+            // const subject = 'Weekly Report';
+            // const text = `Here is your weekly report for the ${medicationDetails[0].description}`;
+            // sendEmailNotification(recipientEmail, subject, text, filepath);
+            ReportQueue.add("report", {
+              recipientEmail: medicationDetails[0].email,
+              subject: 'Weekly Report',
+              text: `Here is your weekly report for the ${medicationDetails[0].description}`,
+              filepath: filepath
+            });
           } catch (error) {
             console.log(error);
           }

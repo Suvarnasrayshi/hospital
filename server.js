@@ -1,5 +1,6 @@
 const express = require("express");
 const app = express();
+require('./service/worker.js')
 const cookieParser = require('cookie-parser');
 const bodyParser = require("body-parser");
 const cron = require('node-cron');
