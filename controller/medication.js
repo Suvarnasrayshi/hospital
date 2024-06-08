@@ -131,8 +131,28 @@ exports.deleteMedication = async(req,res)=>{
 exports.updateMedication =async(req,res)=>{
   try {
     id=req.params.id
-    res.json({id});
-    const updateMedication =await medication.update()
+    console.log("id "+ id);
+   const {name,description,start_date,end_date,date,time,rec_type,type,day_week}=req.body
+   console.log(req.body);
+    const updateMedication =await medication.update(
+      { 
+        name:name,
+        description:description,
+        start_date:start_date,
+        end_date:end_date,
+        date:date,
+        time:time,
+        rec_type:rec_type,
+        type:type,
+        day_week:day_week
+      },
+      {
+        where: {
+          id:id
+        },
+      },
+    );
+    res.redirect('/dashboard')
   } catch (error) {
     console.log(error);
   }
@@ -162,19 +182,16 @@ exports.selectMedicationOnce=async(req,res)=>{
   
   id:req.params.id
   try {
-    const showMedication = await medication.findAll({
+    const showMedicationOnce = await medication.findAll({
       where:{
         id:req.params.id,
         type:"one-time"
       }
     })
-    console.log(showMedication);
+    console.log(showMedicationOnce);
      res.render('updateOnceMedication',{showMedicationOnce})
      
   } catch (error) {
     console.log(error);
   }
 }
-
-// crudauth.route("/detailform/:id").get(validuser,getdetailform)
-// crudauth.route("/detailform/:id/update").post(validuser,postdetailform)

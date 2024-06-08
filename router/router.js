@@ -25,5 +25,5 @@ router.get('/markasdone/:medication_id',marksasdone)
 router.get('/update/:id',authenticate,selectMedication)
 router.get('/updateonce/:id',authenticate,selectMedicationOnce)
 router.get('/delete/:id',authenticate,deleteMedication)
-router.post('/update',authenticate,updateMedication)
+router.post('/updatedata/:id',authenticate,updateMedication)
 module.exports = router;
