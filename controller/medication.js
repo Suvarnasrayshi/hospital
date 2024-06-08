@@ -105,3 +105,76 @@ exports.marksasdone = async(req,res) =>{
     res.status(500).json({ error: 'Failed to mark medication as done' });
   }
 }
+
+
+exports.deleteMedication = async(req,res)=>{
+    try {
+    id=req.params.id
+    const deleteMedication = await medication.destroy({
+      where:{
+        id:id,
+      }
+    })
+    const userMedications = await medication.findAll({
+      where: {
+        user_id: req.user.id, 
+      },
+    });
+
+    res.render("dashboard", { userMedications });
+    } catch (error) {
+  console.log(eror);
+}
+}
+
+
+exports.updateMedication =async(req,res)=>{
+  try {
+    id=req.params.id
+    res.json({id});
+    const updateMedication =await medication.update()
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+
+
+exports.selectMedication=async(req,res)=>{
+  
+  id:req.params.id
+  try {
+    const showMedication = await medication.findAll({
+      where:{
+        id:req.params.id,
+        type:"recurring"
+      }
+    })
+    console.log(showMedication);
+     res.render('updateRecMedication',{showMedication})
+     
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+exports.selectMedicationOnce=async(req,res)=>{
+  
+  id:req.params.id
+  try {
+    const showMedication = await medication.findAll({
+      where:{
+        id:req.params.id,
+        type:"one-time"
+      }
+    })
+    console.log(showMedication);
+     res.render('updateOnceMedication',{showMedicationOnce})
+     
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+// crudauth.route("/detailform/:id").get(validuser,getdetailform)
+// crudauth.route("/detailform/:id/update").post(validuser,postdetailform)

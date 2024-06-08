@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { registration, login, logout, logoutalltheuser, getregister, getlogin, dashboard, logoutothersevice,forgetpassword,getforgetpassword} = require('../controller/registration');
-const { addMedication, addmedicationonce, addmedicationrecuring,marksasdone } = require('../controller/medication');
+const { addMedication, addmedicationonce, addmedicationrecuring,marksasdone,updateMedication,deleteMedication,selectMedication,selectMedicationOnce } = require('../controller/medication');
 const { generateReminders } = require('../controller/reminder');
 const { authenticate } = require('../middleware/authenticate');
 const { reportgenrator, upload } = require('../controller/report');
@@ -22,7 +22,8 @@ router.get("/addmedicationrecuring", authenticate, addmedicationrecuring);
 router.post("/reminder", authenticate, generateReminders);
 router.post("/report", authenticate, reportgenrator);
 router.get('/markasdone/:medication_id',marksasdone)
-
+router.get('/update/:id',authenticate,selectMedication)
+router.get('/updateonce/:id',authenticate,selectMedicationOnce)
+router.get('/delete/:id',authenticate,deleteMedication)
+router.post('/update',authenticate,updateMedication)
 module.exports = router;
-
-// router.post("/report", upload.single('file'), authenticate, reportgenrator);

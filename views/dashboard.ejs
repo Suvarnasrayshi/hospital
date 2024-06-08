@@ -85,6 +85,8 @@
             <th>Description</th>
             <th>Date</th>
             <th>Time</th>
+            <th>Edit</th>
+            <th>Delete</th>
           </tr>
         </thead>
         <tbody>
@@ -95,6 +97,8 @@
             <td><%= user.description %></td>
             <td><%= user.date %></td>
             <td><%= user.time %></td>
+            <td> <a href="/updateonce/<%=user.id %>">Edit</a></td>
+            <td> <a href="/delete/<%=user.id %>">Delete</a></td>
           </tr>
           <% }) %>
         </tbody>
@@ -110,6 +114,8 @@
             <th>End Date</th>
             <th>Time</th>
             <th>Frequency</th>
+            <th>Edit</th>
+            <th>Delete</th>
           </tr>
         </thead>
         <tbody>
@@ -122,6 +128,8 @@
             <td><%= user.end_date %></td>
             <td><%= user.time %></td>
             <td><%= user.rec_type %></td>
+            <td> <a href="/update/<%=user.id %>">Edit</a></td>
+            <td> <a href="/delete/<%=user.id %>">Delete</a></td>
           </tr>
           <% }) %>
         </tbody>

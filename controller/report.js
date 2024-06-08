@@ -74,7 +74,7 @@ const reportgenrator = async () => {
 };
 
 // Schedule the cron job to run weekly
-cron.schedule('* * * * */6', () => {
+cron.schedule('0 8 * * */6', () => {
   console.log('Generating weekly report...');
   reportgenrator();
 });

@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Medication Form</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      margin-top: 100px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+    }
+
+    h1 {
+      color: #333;
+    }
+
+    .container {
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      margin: 20px 0;
+      width: 80%;
+      max-width: 500px;
+    }
+
+    .container form {
+      display: flex;
+      flex-direction: column;
+    }
+
+    input,
+    button,
+    select {
+      padding: 10px;
+      margin: 5px 0;
+      /* //border: 1px solid #ccc; */
+      border-radius: 4px;
+    }
+
+    input[type="submit"] {
+      background-color: #007bff;
+      color: white;
+    }
+
+    #day_week_container {
+      display: none;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <h2>Recurring Medication</h2>
+    <form action="/update" method="post" id="medicationFormrecur">
+      <input type="text" name="name" id="name" placeholder="Name" value="<%= showMedication[0].name %>" required />
+      <input type="text" name="description" id="description" placeholder="Description" value="<%= showMedication[0].description %>" required />
+      <input type="date" name="start_date" id="start_date" value="<%= showMedication[0].start_date %>" required />
+      <input type="date" name="end_date" id="end_date" value="<%= showMedication[0].end_date %>" required />
+      <input type="time" name="time" id="time" value="<%= showMedication[0].time %>" required />
+      <select name="rec_type" id="rec_type" required onclick="weekdropdown()">
+        <option value="daily" <%= showMedication[0].rec_type==='daily' ? 'selected' :'' %>>Daily</option>
+        <option value="weekly" <%= showMedication[0].rec_type==='weekly' ? 'selected' :'' %>>Weekly</option>
+      </select>
+      <div id="weekdropdown">
+        <select name="day_week" id="day_week">
+          <option>Days</option>
+          <option value="Monday" <%= showMedication[0].day_week==='Monday' ? 'selected' :'' %>>Monday</option>
+          <option value="Tuesday" <%= showMedication[0].day_week==='Tuesday' ? 'selected' :'' %>>Tuesday</option>
+          <option value="Wednesday" <%= showMedication[0].day_week==='Wednesday' ? 'selected' :'' %>>Wednesday</option>
+          <option value="Thursday" <%= showMedication[0].day_week==='Thursday' ? 'selected' :'' %>>Thursday</option>
+          <option value="Friday" <%= showMedication[0].day_week==='Friday' ? 'selected' :'' %>>Friday</option>
+          <option value="Saturday" <%= showMedication[0].day_week==='Saturday' ? 'selected' :'' %>>Saturday</option>
+          <option value="Sunday" <%= showMedication[0].day_week==='Sunday ? ' selected' :'' %>>Sunday</option>
+        </select>
+      </div>
+      <input type="hidden" name="type" id="type" value="recurring" />
+      <input type="submit" value="Submit" />
+    </form>
+  </div>
+
+  <script>
+    function weekdropdown() {
+      const rectype = document.getElementById("rec_type");
+      const weekselect = document.getElementById("weekdropdown");
+
+      if (rectype.value === "weekly") {
+        weekselect.style.display = "block";
+      } else {
+        weekselect.style.display = "none";
+      }
+    }
+
+    const form = document.getElementById("medicationFormrecur");
+    form.addEventListener("submit", async function (e) {
+      e.preventDefault();
+      const name = document.getElementById("name").value;
+      const description = document.getElementById("description").value;
+      const start_date = document.getElementById("start_date").value;
+      const end_date = document.getElementById("end_date").value;
+      const time = document.getElementById("time").value;
+      const rec_type = document.getElementById("rec_type").value;
+      const type = document.getElementById("type").value;
+      const day_week = document.getElementById("day_week").value;
+      let medicationData = {
+        name,
+        description,
+        start_date,
+        end_date,
+        time,
+        rec_type,
+        type,
+        day_week,
+      };
+      console.log(medicationData);
+      try {
+        const response = await fetch("/update", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(medicationData),
+        });
+
+        if (response.ok) {
+          const result = await response.json();
+          window.location.href = "/dashboard";
+        } else {
+          const error = await response.json();
+          alert(`Error: ${error.message}`);
+        }
+      } catch (error) {
+        alert("An error occurred while adding medication");
+      }
+    });
+  </script>
+</body>
+
+</html>
+
+
+
+
+
+
+
+
+SyntaxError: missing ) after argument list in /home/suvarna-sinha/Documents/hospital_healthandwellness/hospital/views/updateRecMedication.ejs while compiling ejs
+
+If the above error is not helpful, you may want to try EJS-Lint:
+https://github.com/RyanZim/EJS-Lint
+Or, if you meant to create an async function, pass `async: true` as an option.
+    at new Function (<anonymous>)
+    at Template.compile (/home/suvarna-sinha/node_modules/ejs/lib/ejs.js:673:12)
+    at Object.compile (/home/suvarna-sinha/node_modules/ejs/lib/ejs.js:398:16)
+    at handleCache (/home/suvarna-sinha/node_modules/ejs/lib/ejs.js:235:18)
+    at tryHandleCache (/home/suvarna-sinha/node_modules/ejs/lib/ejs.js:274:16)
+    at View.exports.renderFile [as engine] (/home/suvarna-sinha/node_modules/ejs/lib/ejs.js:491:10)
+    at View.render (/home/suvarna-sinha/Documents/hospital_healthandwellness/hospital/node_modules/express/lib/view.js:135:8)
+    at tryRender (/home/suvarna-sinha/Documents/hospital_healthandwellness/hospital/node_modules/express/lib/application.js:657:10)
+    at Function.render (/home/suvarna-sinha/Documents/hospital_healthandwellness/hospital/node_modules/express/lib/application.js:609:3)
+    at ServerResponse.render (/home/suvarna-sinha/Documents/hospital_healthandwellness/hospital/node_modules/express/lib/response.js:1048:7)
