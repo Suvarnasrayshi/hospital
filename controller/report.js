@@ -18,8 +18,7 @@ const reportgenrator = async () => {
   let last = first + 6;
   let startOfWeek = new Date(today.setDate(first)).toISOString().split('T')[0];
   let endOfWeek = new Date(today.setDate(last)).toISOString().split('T')[0];
-  // const startOfWeek = new Date(today.setDate(today.getDate() - today.getDay())).toISOString().split('T')[0];
-  // const endOfWeek = new Date(today.setDate(today.getDate() - today.getDay() + 6)).toISOString().split('T')[0];
+
   try {
     const medicationDetails = await medication.findAll({
       attributes: ['name', 'description', 'time', 'date', 'user.email', 'user.id'],
@@ -50,10 +49,6 @@ const reportgenrator = async () => {
             console.log("Data saved !!!");
             console.log(filepath);
 
-            // const recipientEmail = medicationDetails[0].email;
-            // const subject = 'Weekly Report';
-            // const text = `Here is your weekly report for the ${medicationDetails[0].description}`;
-            // sendEmailNotification(recipientEmail, subject, text, filepath);
             ReportQueue.add("report", {
               recipientEmail: medicationDetails[0].email,
               subject: 'Weekly Report',
