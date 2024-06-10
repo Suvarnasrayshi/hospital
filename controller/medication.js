@@ -97,12 +97,12 @@ exports.marksasdone = async (req, res) => {
       const reminder_delete = await reminder.destroy({
         where: { medication_id: medication_id }
       })
-    }
-
-    res.json({ message: 'Medication marked as done successfully' });
+    } 
+    res.render('partials/markasdone')
+    // res.json({ message: 'Medication marked as done successfully' });
   } catch (error) {
     console.error('Error marking medication as done:', error);
-    res.json({ error: 'Failed to mark medication as done' });
+
   }
 }
 

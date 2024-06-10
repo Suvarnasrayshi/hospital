@@ -63,9 +63,9 @@ exports.getlogin = async (req, res) => {
 
 exports.login = async (req, res) => {
   // try {
-  const { email } = req.body;
+  const { email,password } = req.body;
 
-  const users = await user.findOne({ where: { email } });
+  const users = await user.findOne({ where: { email,password } });
 
   if (!users) {
     return res.json({ error: "Invalid email" });

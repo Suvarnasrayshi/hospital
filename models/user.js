@@ -37,13 +37,19 @@ module.exports = (sequelize, DataTypes) => {
     modelName: 'user',
     paranoid: true,
     hooks: {
-      beforeCreate: (user) => {
+      beforeCreate: async (user) => {
         user.username = user.username.toLowerCase();
         if (user.password) {
-          const salt = bcrypt.genSaltSync(10, 'a');
-          user.password = bcrypt.hashSync(user.password, salt);
+          const salt = await bcrypt.genSalt(10);
+          user.password = await bcrypt.hash(user.password, salt);
         }
       },
+      beforeUpdate: async (user) => {
+        if (user.changed('password')) {
+          const salt = await bcrypt.genSalt(10);
+          user.password = await bcrypt.hash(user.password, salt);
+        }
+      }
     }
   });
   return user;
