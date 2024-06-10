@@ -96,7 +96,7 @@ const generateReminders = async () => {
 };
 
   cron.schedule("* * * * *", function() {
-  console.log("Runs at every minutes");
+  console.log("Run's at every minutes");
   generateReminders();
 });
 
