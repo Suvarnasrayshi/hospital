@@ -14,7 +14,7 @@ require("dotenv").config();
 
 const secretKey = process.env.SECRET_KEY;
 
-app.use(bodyParser.json()); // for parsing application/json
+app.use(bodyParser.json()); 
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(cookieParser());
@@ -32,9 +32,9 @@ exports.registration = async (req, res) => {
       email,
       password,
     });
-    res.status(200).json({ message: "Registration successful" });
+    res.json({ message: "Registration successful" });
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    res.json({ error: error.message });
   }
 };
 exports.forgetpassword = async(req,res)=>{
@@ -64,42 +64,35 @@ exports.getlogin = async (req, res) => {
 exports.login = async (req, res) => {
   // try {
   const { email } = req.body;
-  console.log(req.body);
+
   const users = await user.findOne({ where: { email } });
 
   if (!users) {
-    return res.status(401).json({ error: "Invalid email" });
+    return res.json({ error: "Invalid email" });
   }
-  console.log(users);
+
   const token = jwt.sign({ id: users.id }, secretKey, { expiresIn: "3h" });
   res.cookie("token", token, { httpOnly: true });
   console.log("token", token);
   res.json({ token });
-  //   // Retrieve medication data for the logged-in user
-  //   const medicationdata = await medication.findAll({ where: { user_id: users.id } });
 
-  //   res.render('dashboard', { userMedications: medicationdata });
-  // } catch (error) {
-  //   res.json({ error: error.message });
-  // }
 };
 
 exports.dashboard = async (req, res) => {
-  // Assuming the logged-in user's information is available in req.user
+
   const userId = req.user.id;
 
   try {
-    // Fetch medication data associated with the logged-in user
     const userMedications = await medication.findAll({
       where: {
-        user_id: userId, // Assuming there's a field user_id in the medication table
+        user_id: userId,
       },
     });
 
     res.render("dashboard", { userMedications });
   } catch (error) {
     console.error("Error fetching user medications:", error);
-    res.status(500).send("Error fetching user medications");
+    res.send("Error fetching user medications");
   }
 };
 
@@ -125,7 +118,7 @@ exports.logoutalltheuser = async (req, res) => {
     res.clearCookie("token");
     res.redirect("/login");
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    res.json({ error: error.message });
   }
 };
 
@@ -144,6 +137,6 @@ exports.logoutothersevice = async (req, res) => {
     res.clearCookie("token");
     res.redirect("/login");
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    res.json({ error: error.message });
   }
 };

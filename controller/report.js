@@ -7,7 +7,6 @@ const { medication, report, user } = require('../models');
 const bodyParser = require("body-parser");
 app.use(bodyParser.urlencoded({ extended: true }));
 app.set("view engine", "ejs");
-const { sendEmailNotification } = require("../service/email");
 const { ReportQueue } = require("../service/producer");
 
 
@@ -68,7 +67,6 @@ const reportgenrator = async () => {
   }
 };
 
-// Schedule the cron job to run weekly
 cron.schedule('0 8 * * */6', () => {
   console.log('Generating weekly report...');
   reportgenrator();
