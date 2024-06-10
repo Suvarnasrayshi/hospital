@@ -5,7 +5,7 @@ const sendEmailreminderNotification = async (recipientEmail, subject, text,medic
 
   const emailTemplate = `
    <p>${text}</p>
-     <a href="http://localhost:3001/markasdone/${medicationId}" style="display: inline-block; padding: 10px 20px; color: white; background-color: #28a745; text-decoration: none; border-radius: 5px;">Mark as Done</a>
+     <a href="http://localhost:3001/markasdone/${medicationId}" style="display: inline-block; padding: 10px 20px; color: white; background-color: #3385ff; text-decoration: none; border-radius: 5px;">Mark as Done</a>
    `;
 
   try {
@@ -13,7 +13,7 @@ const sendEmailreminderNotification = async (recipientEmail, subject, text,medic
       service: 'gmail',
       auth: {
         user: process.env.SENDER_MAIL, 
-        pass: 'edkz pqcu yxsc wtij', 
+        pass: process.env.SENDER_PASS
       },
     });
 

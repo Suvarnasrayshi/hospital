@@ -39,7 +39,7 @@ const generateReminders = async () => {
             reminder_at: new Date(`${medicationdetail.date} ${medicationdetail.time}`),
             status: "pending",
           });
-          console.log("Reminder created for one-time medication", medicationdetail.id);
+          console.log("Reminder created for one-time medication", medicationdetail.email);
           EmailQueue.add("email",{
             recipientEmail:medicationdetail.email,
             subject:'Medication Reminder',

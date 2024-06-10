@@ -19,7 +19,7 @@ module.exports = (sequelize, DataTypes) => {
   report.init({
     user_id: DataTypes.INTEGER,
     report_date: DataTypes.DATE,
-    description: DataTypes.STRING,
+    filepath: DataTypes.STRING,
     deletedAt: {
       type: DataTypes.DATE,
       allowNull: true

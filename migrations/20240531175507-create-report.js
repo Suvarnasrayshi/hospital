@@ -21,7 +21,7 @@ module.exports = {
       report_date: {
         type: Sequelize.DATE
       },
-      description: {
+      filepath: {
         type: Sequelize.STRING
       },
       createdAt: {

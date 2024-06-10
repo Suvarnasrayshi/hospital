@@ -38,7 +38,6 @@
     select {
       padding: 10px;
       margin: 5px 0;
-      /* border: 1px solid #ccc; */
       border-radius: 4px;
     }
 
@@ -95,55 +94,3 @@
         weekselect.style.display = "none";
       }
     }
-
-//     const form = document.getElementById("medicationFormrecur");
-//     form.addEventListener("submit", async function (e) {
-//       e.preventDefault();
-//       const name = document.getElementById("name").value;
-//       const id = document.getElementById("id").value;
-//       const description = document.getElementById("description").value;
-//       const start_date = document.getElementById("start_date").value;
-//       const end_date = document.getElementById("end_date").value;
-//       const time = document.getElementById("time").value;
-//       const rec_type = document.getElementById("rec_type").value;
-//       const type = document.getElementById("type").value;
-//       const day_week = document.getElementById("day_week").value;
-// console.log("the id is:",id);
-//       let medicationData = {
-//         name,
-//         description,
-//         start_date,
-//         end_date,
-//         time,
-//         rec_type,
-//         type,
-//         day_week,
-//       };
-
-     
-
-//       try {
-//         const response = await fetch(`/updatedata/${id}`, {
-//           method: "POST",
-//           headers: {
-//             "Content-Type": "application/json",
-//           },
-//           body: JSON.stringify(medicationData),
-//         });
-//         console.log("fgnjhjxdjhyrgjd");
-//         console.log(response);
-//         if (response.ok) {
-//           console.log("object");
-//           const result = await response.json();
-//           window.location.href = "/dashboard";
-//         } else {
-//           const error = await response.json();
-//           alert(`Error: ${error.message}`);
-//         }
-//       } catch (error) {
-//         alert("An error occurred while adding medication");
-//       }
-//     });
-  </script>
-</body>
-</html>
