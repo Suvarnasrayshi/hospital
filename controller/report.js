@@ -10,23 +10,16 @@ app.set("view engine", "ejs");
 const { ReportQueue } = require("../service/producer");
 
 
-exports.reportgenrator = async () => {
+const reportgenrator = async () => {
   const filepath = '/home/suvarna-sinha/Documents/hospitalcsvvvvvvvvvv/' + Date.now() + '.csv';
   const today = new Date();
   let first = today.getDate() - today.getDay();
   let last = first + 6;
   let startOfWeek = new Date(today.setDate(first)).toISOString().split('T')[0];
   let endOfWeek = new Date(today.setDate(last)).toISOString().split('T')[0];
-
+console.log(startOfWeek);
+console.log(endOfWeek);
   try {
-    // const medicationDetails = await medication.findAll({
-    //   attributes: ['name', 'description', 'time', 'date', 'user.email', 'user.id'],
-    //   raw: true,
-    //   where: {
-    //     date: { [Op.between]: [startOfWeek, endOfWeek] }
-    //   },
-    //   include: [user]
-    // });
 
     const medicationDetails = await medication.findAll({
       attributes: ['name', 'description', 'time', 'date', 'user.email', 'user.id'],
@@ -34,7 +27,7 @@ exports.reportgenrator = async () => {
       where:{
         date:{[Op.between]:[startOfWeek,endOfWeek]}
       },
-      include:[{model:user,attributes:['email']}]
+      include: [user]
     })
 
     if (medicationDetails.length > 0) {
@@ -55,12 +48,12 @@ exports.reportgenrator = async () => {
             console.log("Data saved !!!");
             console.log(filepath);
 
-            // ReportQueue.add("report", {
-            //   recipientEmail: medicationDetails[0].email,
-            //   subject: 'Weekly Report',
-            //   text: `Here is your weekly report for the ${medicationDetails[0].description}`,
-            //   filepath: filepath
-            // });
+            ReportQueue.add("report", {
+              recipientEmail: medicationDetails[0].email,
+              subject: 'Weekly Report',
+              text: `Here is your weekly report for the ${medicationDetails[0].description}`,
+              filepath: filepath
+            });
           } catch (error) {
             console.log(error);
           }
@@ -74,7 +67,9 @@ exports.reportgenrator = async () => {
   }
 };
 
-cron.schedule('* * * * */1', () => {
+module.exports = { reportgenrator };
+
+cron.schedule('0 8 * * */1', () => {
   console.log('Generating weekly report...');
   reportgenrator();
 });
