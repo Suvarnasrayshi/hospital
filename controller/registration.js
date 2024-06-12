@@ -79,21 +79,18 @@ exports.login = async (req, res) => {
 };
 
 exports.dashboard = async (req, res) => {
-
-  const userId = req.user.id;
-
   try {
-    const userMedications = await medication.findAll({
-      where: {
-        user_id: userId,
-      },
+    const oneTimeMedications = await medication.findAll({
+      where: { user_id: req.user.id, type: 'one-time' },
     });
-
-    res.render("dashboard", { userMedications });
+    const recurringMedications = await medication.findAll({
+      where: { user_id: req.user.id, type: 'recurring' },
+    });
+    res.render('dashboard', { oneTimeMedications, recurringMedications });
   } catch (error) {
-    console.error("Error fetching user medications:", error);
-    res.send("Error fetching user medications");
-  }
+    console.error("Error fetching medications:", error);
+    res.status(500).send("Internal Server Error");
+  }  
 };
 
 exports.logout = async (req, res) => {

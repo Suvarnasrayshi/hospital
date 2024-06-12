@@ -90,8 +90,7 @@
           </tr>
         </thead>
         <tbody>
-          <% userMedications.filter(user => user.type ===
-          'one-time').forEach(user => { %>
+          <% oneTimeMedications.forEach(user => { %>
           <tr class="one-time">
             <td><%= user.name %></td>
             <td><%= user.description %></td>
@@ -119,8 +118,7 @@
           </tr>
         </thead>
         <tbody>
-          <% userMedications.filter(user => user.type ===
-          'recurring').forEach(user => { %>
+          <% recurringMedications.forEach(user => { %>
           <tr class="recurring">
             <td><%= user.name %></td>
             <td><%= user.description %></td>
