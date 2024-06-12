@@ -37,7 +37,7 @@ const generateReminders = async () => {
           await reminder.create({
             medication_id: medicationdetail.id,
             reminder_at: new Date(`${medicationdetail.date} ${medicationdetail.time}`),
-            status: "pending",
+            mark_as_done:0
           });
           console.log("Reminder created for one-time medication", medicationdetail.email);
           EmailQueue.add("email",{
@@ -58,7 +58,8 @@ const generateReminders = async () => {
           await reminder.create({
             medication_id: medicationdetail.id,
             reminder_at: new Date(`${dateWithoutTime} ${medicationdetail.time}`),
-            status: "pending",
+            mark_as_done:0
+
           });
          
         }
@@ -69,7 +70,8 @@ const generateReminders = async () => {
             await reminder.create({
               medication_id: medicationdetail.id,
               reminder_at: new Date(`${dateWithoutTime} ${medicationdetail.time}`),
-              status: "pending",
+              mark_as_done:0
+
             });
           }
           }
@@ -95,7 +97,7 @@ const generateReminders = async () => {
   }
 };
 
-  cron.schedule("* * * * *", function() {
+  cron.schedule("* * * * */1", function() {
   console.log("Run's at every minutes");
   generateReminders();
 });

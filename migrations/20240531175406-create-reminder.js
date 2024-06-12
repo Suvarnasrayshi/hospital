@@ -21,8 +21,8 @@ module.exports = {
       reminder_at:{
         type: Sequelize.DATE
       },
-      status:{
-        type: Sequelize.STRING
+      mark_as_done:{
+        type: Sequelize.BOOLEAN
       },
       createdAt: {
         allowNull: false,

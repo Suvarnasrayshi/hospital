@@ -76,6 +76,11 @@ exports.login = async (req, res) => {
   console.log("token", token);
   res.json({ token });
 
+const sessions= await session.create({
+ user_id:users.id,
+ session_token:token
+});
+console.log(req.cookie);
 };
 
 exports.dashboard = async (req, res) => {
@@ -112,7 +117,10 @@ exports.logoutalltheuser = async (req, res) => {
     const result = await session.destroy({
       where: { user_id: req.user.id },
     });
-    res.clearCookie("token");
+   
+      res.clearCookie("token");
+
+      console.log(result);
     res.redirect("/login");
   } catch (error) {
     res.json({ error: error.message });
@@ -131,8 +139,9 @@ exports.logoutothersevice = async (req, res) => {
         },
       },
     });
-    res.clearCookie("token");
-    res.redirect("/login");
+    if(result){
+      res.redirect("/dashboard")
+    }
   } catch (error) {
     res.json({ error: error.message });
   }

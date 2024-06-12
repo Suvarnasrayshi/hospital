@@ -3,12 +3,12 @@ const router = express.Router();
 const { registration, login, logout, logoutalltheuser, getregister, getlogin, dashboard, logoutothersevice, forgetpassword, getforgetpassword } = require('../controller/registration');
 const { addMedication, addmedicationonce, addmedicationrecuring, marksasdone, updateMedication, deleteMedication, selectMedication, selectMedicationOnce } = require('../controller/medication');
 const { generateReminders } = require('../controller/reminder');
-const { authenticate } = require('../middleware/authenticate');
-const { reportgenrator, upload } = require('../controller/report');
+const { authenticate,loginwork } = require('../middleware/authenticate');
+const { reportgenrator } = require('../controller/report');
 
 router.get("/", getregister);
 router.post("/registration", registration);
-router.get("/login", getlogin);
+router.get("/login",loginwork, getlogin);
 router.get("/dashboard", authenticate, dashboard);
 router.post("/login", login);
 router.post("/forgetpassword", forgetpassword),

@@ -18,21 +18,28 @@ exports.addMedication = async (req, res) => {
     rec_type,
 
   } = req.body;
+  console.log(req.body);
 
   try {
     console.log(req.user);
     const user_id = req.user.id;
     let newMedication;
     if (type === "one-time") {
-      newMedication = await medication.create({
-        user_id,
-        name,
-        description,
-        type,
-        date,
-        time,
-        mark_as_done: 0,
-      });
+      console.log("object");
+      try {
+        newMedication = await medication.create({
+          user_id,
+          name,
+          description,
+          type,
+          date,
+          time,
+          
+        });
+      } catch (error) {
+        console.log(error);
+      }
+     
     } else if (type === "recurring") {
       if (rec_type === "daily") {
         newMedication = await medication.create({
@@ -44,7 +51,7 @@ exports.addMedication = async (req, res) => {
           start_date,
           end_date,
           time,
-          mark_as_done: 0,
+         
         });
       }
       if (rec_type === "weekly") {
@@ -58,7 +65,7 @@ exports.addMedication = async (req, res) => {
           end_date,
           time,
           day_week,
-          mark_as_done: 0,
+          
         });
       }
     } else {
@@ -89,15 +96,11 @@ exports.marksasdone = async (req, res) => {
   const { medication_id } = req.params;
   // console.log(req.params);
   try {
-    const updatedMedication = await medication.update(
+    const updatedMedication = await reminder.update(
       { mark_as_done: 1 },
-      { where: { id: medication_id } }
+      { where: { medication_id: medication_id } }
     );
-    if (updatedMedication) {
-      const reminder_delete = await reminder.destroy({
-        where: { medication_id: medication_id }
-      })
-    } 
+    console.log(updatedMedication);
     res.render('partials/markasdone')
     // res.json({ message: 'Medication marked as done successfully' });
   } catch (error) {

@@ -45,9 +45,6 @@ module.exports = {
       day_week: {
         type: Sequelize.STRING
       },
-      mark_as_done:{
-        type:Sequelize.BOOLEAN
-      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

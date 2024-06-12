@@ -19,7 +19,7 @@ module.exports = (sequelize, DataTypes) => {
   reminder.init({
     medication_id: DataTypes.INTEGER,
     reminder_at: DataTypes.DATE,
-    status: DataTypes.STRING,
+    mark_as_done: DataTypes.BOOLEAN,
     deletedAt: {
       type: DataTypes.DATE,
       allowNull: true
