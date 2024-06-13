@@ -9,6 +9,7 @@ const bodyParser = require("body-parser");
 const { loggedOutTokens } = require("../middleware/authenticate");
 const { user, medication, session } = require("../models");
 const { Op } = require("sequelize");
+const md5 = require('md5');
 
 require("dotenv").config();
 
@@ -25,12 +26,13 @@ exports.getregister = async (req, res) => {
 
 exports.registration = async (req, res) => {
   const { username, email, password } = req.body;
-
+  const newPassword= md5(password)
+  console.log("registration pass:  ",newPassword);
   try {
     const newUser = await user.create({
       username,
       email,
-      password,
+      password:newPassword,
     });
     res.json({ message: "Registration successful" });
   } catch (error) {
@@ -40,9 +42,11 @@ exports.registration = async (req, res) => {
 exports.forgetpassword = async(req,res)=>{
   const {email,password}=req.body;
   console.log(req.body);
+  const newPassword= md5(password)
+  console.log("forget apssword:  ",newPassword);
   try {
    const forgetPassword= await user.update(
-    { password :password },
+    { password :newPassword },
     { where: { email: email } }
     );
     console.log('Password updated successfully');
@@ -63,14 +67,19 @@ exports.getlogin = async (req, res) => {
 
 exports.login = async (req, res) => {
   try {
-  const { email,password } = req.body;
-
+  var { email,password } = req.body;
+  const newPassword= md5(password)
+  console.log("login password",password);
+  console.log("md5 password",newPassword);
+  password=newPassword
   const users = await user.findOne({ where: { email,password } });
-
+  console.log("userdata",users);
+  const logged=users.password
+console.log("inserted data pass",logged);
   if (!users) {
     return res.json({ error: "Invalid email" });
   }
-
+// if(users.password===newPassword){
   const token = jwt.sign({ id: users.id }, secretKey, { expiresIn: "3h" });
   res.cookie("token", token, { httpOnly: true });
   console.log("token", token);
@@ -81,7 +90,8 @@ const sessions= await session.create({
  session_token:token
 });
 console.log(req.cookie);
-  }
+  // }
+}
   catch (error) {
     console.error("Error fetching medications:", error);
   }  

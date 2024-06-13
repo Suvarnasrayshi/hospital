@@ -22,10 +22,14 @@ console.log(endOfWeek);
   try {
 
     const medicationDetails = await medication.findAll({
-      attributes: ['name', 'description', 'time', 'date', 'user.email', 'user.id'],
+      attributes: ['name', 'description', 'time', 'date','start_date','end_date', 'user.email', 'user.id'],
       raw:true,
       where:{
-        date:{[Op.between]:[startOfWeek,endOfWeek]}
+        [Op.or]:{
+        date:{[Op.between]:[startOfWeek,endOfWeek]},
+        start_date:{[Op.between]:[startOfWeek,endOfWeek]},
+        end_date:{[Op.between]:[startOfWeek,endOfWeek]}
+        }
       },
       include: [user]
       

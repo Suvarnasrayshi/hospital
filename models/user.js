@@ -2,7 +2,6 @@
 const {
   Model
 } = require('sequelize');
-const bcrypt = require('bcrypt');
 module.exports = (sequelize, DataTypes) => {
   class user extends Model {
     /**
@@ -36,21 +35,6 @@ module.exports = (sequelize, DataTypes) => {
     sequelize,
     modelName: 'user',
     paranoid: true,
-    hooks: {
-      beforeCreate: async (user) => {
-        user.username = user.username.toLowerCase();
-        if (user.password) {
-          const salt = await bcrypt.genSalt(10);
-          user.password = await bcrypt.hash(user.password, salt);
-        }
-      },
-      beforeUpdate: async (user) => {
-        if (user.changed('password')) {
-          const salt = await bcrypt.genSalt(10);
-          user.password = await bcrypt.hash(user.password, salt);
-        }
-      }
-    }
   });
   return user;
 };
