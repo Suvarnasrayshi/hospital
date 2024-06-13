@@ -1,11 +1,11 @@
 const nodemailer = require('nodemailer');
 require('dotenv').config();
-const sendEmailreminderNotification = async (recipientEmail, subject, text,medicationId ) => {
+const sendEmailreminderNotification = async (recipientEmail, subject, text,reminderId ) => {
 
 
   const emailTemplate = `
    <p>${text}</p>
-     <a href="http://localhost:3001/markasdone/${medicationId}" style="display: inline-block; padding: 10px 20px; color: white; background-color: #3385ff; text-decoration: none; border-radius: 5px;">Mark as Done</a>
+     <a href="http://localhost:3001/markasdone/${reminderId}" style="display: inline-block; padding: 10px 20px; color: white; background-color: #3385ff; text-decoration: none; border-radius: 5px;">Mark as Done</a>
    `;
 
   try {

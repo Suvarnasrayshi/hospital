@@ -4,8 +4,8 @@ const { sendEmailreminderNotification } = require("../service/reminderemail");
 const {sendEmailNotification} = require("../service/email")
 
 exports.emailWorker = new Worker('email',async(job)=>{
-  const{recipientEmail,subject,text,medicationId}=job.data;
-  sendEmailreminderNotification(recipientEmail,subject,text,medicationId);
+  const{recipientEmail,subject,text,reminderId}=job.data;
+  sendEmailreminderNotification(recipientEmail,subject,text,reminderId);
 },{connection:redisConfig});
 
 

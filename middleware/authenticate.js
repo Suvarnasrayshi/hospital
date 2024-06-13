@@ -38,32 +38,4 @@ const authenticate = async (req, res, next) => {
 };
 
 
-
-const loginwork = async(req , res , next) => {
-  console.log(req.cookies.token)
-  if(!req.cookies.token){
-    next();
-  }
-  else{
-    let decoded = jwt.verify(req.cookies.token , secretKey);
-
-    let result = await session.findAndCountAll({
-      where:{
-        user_id:decoded.id,
-        session_token:req.cookies.token
-      },
-      raw:true
-    });
-
-     console.log(result);
-    if(result.count && result.rows[0].session_token == req.cookies.token){
-      console.log("heeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee");
-      return res.redirect('/dashboard');
-    }
-    else{
-      next();
-    }
-  }
-}
-
-module.exports = { authenticate,loginwork};
+ module.exports = { authenticate};

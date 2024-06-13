@@ -93,12 +93,12 @@ exports.addmedicationrecuring = async (req, res) => {
 
 
 exports.marksasdone = async (req, res) => {
-  const { medication_id } = req.params;
+  const { id } = req.params;
   // console.log(req.params);
   try {
     const updatedMedication = await reminder.update(
       { mark_as_done: 1 },
-      { where: { medication_id: medication_id } }
+      { where: { id: id } }
     );
     console.log(updatedMedication);
     res.render('partials/markasdone')
@@ -112,19 +112,13 @@ exports.marksasdone = async (req, res) => {
 
 exports.deleteMedication = async (req, res) => {
   try {
-    id = req.params.id
+   const id = req.params.id
     const deleteMedication = await medication.destroy({
       where: {
         id: id,
       }
     })
-    const userMedications = await medication.findAll({
-      where: {
-        user_id: req.user.id,
-      },
-    });
-
-    res.render("dashboard", { userMedications });
+  res.redirect("/dashboard")
   } catch (error) {
     console.log(eror);
   }
@@ -133,7 +127,7 @@ exports.deleteMedication = async (req, res) => {
 
 exports.updateMedication = async (req, res) => {
   try {
-    id = req.params.id
+  const id = req.params.id
 
     const { name, description, start_date, end_date, date, time, rec_type, type, day_week } = req.body
 
@@ -165,7 +159,7 @@ exports.updateMedication = async (req, res) => {
 
 exports.selectMedication = async (req, res) => {
 
-  id: req.params.id
+
   try {
     const showMedication = await medication.findAll({
       where: {

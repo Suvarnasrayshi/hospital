@@ -34,7 +34,7 @@ const generateReminders = async () => {
         medicationdetail.date === dateWithoutTime &&
         medicationdetail.time === totaltime
         ) {
-          await reminder.create({
+       const newReminder=await reminder.create({
             medication_id: medicationdetail.id,
             reminder_at: new Date(`${medicationdetail.date} ${medicationdetail.time}`),
             mark_as_done:0
@@ -44,7 +44,7 @@ const generateReminders = async () => {
             recipientEmail:medicationdetail.email,
             subject:'Medication Reminder',
             text:`Please remember to take your medication ${medicationdetail.name} at ${medicationdetail.time}.`,
-           medicationId: medicationdetail.id
+           reminderId: newReminder.id
          });
         
         }
@@ -55,35 +55,42 @@ const generateReminders = async () => {
              && medicationdetail.time === totaltime) {
               
              if(  medicationdetail.rec_type=== "daily"){
-          await reminder.create({
+        const newReminder=  await reminder.create({
             medication_id: medicationdetail.id,
             reminder_at: new Date(`${dateWithoutTime} ${medicationdetail.time}`),
             mark_as_done:0
 
           });
+          console.log(`Reminder created for recurring medication: ${medicationdetail.email}`);
+          EmailQueue.add("email",{
+            recipientEmail:medicationdetail.email,
+            subject:'Medication Reminder',
+            text:`Please remember to take your medication ${medicationdetail.name} at ${medicationdetail.time}.`,
+           reminderId: newReminder.id
+         });
          
         }
          if (medicationdetail.rec_type=== "weekly" ) {
           if (medicationdetail.day_week === todayDay ) {
             
           
-            await reminder.create({
+          const newReminder=  await reminder.create({
               medication_id: medicationdetail.id,
               reminder_at: new Date(`${dateWithoutTime} ${medicationdetail.time}`),
               mark_as_done:0
 
             });
+          console.log(`Reminder created for recurring medication: ${medicationdetail.email}`);
+            EmailQueue.add("email",{
+              recipientEmail:medicationdetail.email,
+              subject:'Medication Reminder',
+              text:`Please remember to take your medication ${medicationdetail.name} at ${medicationdetail.time}.`,
+             reminderId: newReminder.id
+           });
           }
           }
          
-          console.log(`Reminder created for recurring medication: ${medicationdetail.email}`);
           
-          EmailQueue.add("email",{
-             recipientEmail:medicationdetail.email,
-             subject:'Medication Reminder',
-             text:`Please remember to take your medication ${medicationdetail.name} at ${medicationdetail.time}.`,
-            medicationId: medicationdetail.id
-          });
           
         }
      
@@ -97,7 +104,7 @@ const generateReminders = async () => {
   }
 };
 
-  cron.schedule("* * * * */1", function() {
+  cron.schedule("* * * * *", function() {
   console.log("Run's at every minutes");
   generateReminders();
 });

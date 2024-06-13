@@ -28,12 +28,13 @@ console.log(endOfWeek);
         date:{[Op.between]:[startOfWeek,endOfWeek]}
       },
       include: [user]
+      
     })
 
     if (medicationDetails.length > 0) {
-      let csvContent = 'Medicine Name,Medicine Date,Medicine Time\n';
+      let csvContent = 'Medicine Name,Medicine Description,Medicine Date,Medicine Time\n';
       medicationDetails.forEach(element => {
-        csvContent += `${element.name},${element.date},${element.time}\n`;
+        csvContent += `${element.name},${element.description},${element.date},${element.time}\n`;
       });
       fs.writeFile(filepath, csvContent, async (err) => {
         if (err) {

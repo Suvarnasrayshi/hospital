@@ -62,7 +62,7 @@ exports.getlogin = async (req, res) => {
 };
 
 exports.login = async (req, res) => {
-  // try {
+  try {
   const { email,password } = req.body;
 
   const users = await user.findOne({ where: { email,password } });
@@ -81,6 +81,10 @@ const sessions= await session.create({
  session_token:token
 });
 console.log(req.cookie);
+  }
+  catch (error) {
+    console.error("Error fetching medications:", error);
+  }  
 };
 
 exports.dashboard = async (req, res) => {
@@ -94,14 +98,13 @@ exports.dashboard = async (req, res) => {
     res.render('dashboard', { oneTimeMedications, recurringMedications });
   } catch (error) {
     console.error("Error fetching medications:", error);
-    res.status(500).send("Internal Server Error");
   }  
 };
 
 exports.logout = async (req, res) => {
   try {
     const token = req.cookies.token;
-    const result = await session.destroy({
+     await session.destroy({
       where: { user_id: req.user.id, session_token: token },
     });
     res.clearCookie("token");
@@ -114,13 +117,13 @@ exports.logout = async (req, res) => {
 exports.logoutalltheuser = async (req, res) => {
   try {
     const token = req.cookies.token;
-    const result = await session.destroy({
+    await session.destroy({
       where: { user_id: req.user.id },
     });
    
       res.clearCookie("token");
 
-      console.log(result);
+     
     res.redirect("/login");
   } catch (error) {
     res.json({ error: error.message });
